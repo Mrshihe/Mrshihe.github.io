@@ -61,3 +61,15 @@ search:
   format: html
   limit: 1000 #搜索限制条数
 ```
+### 折腾了一下next点击日志的时候跳转错误
+版本更新一下后 点击日志突然报错 Cannot GET /archives/%7C%7C%20archive/ 
+heox pagejson "version": "5.1.4"
+解决办法
+在next主题下 sidebar.swig下
+```
+<a href="{{ url_for(theme.menu.archives).split('||')[0] | trim }}">
+```
+改为
+```
+<a href="{{ url_for(theme.menu.archives.split('||')[0]) | trim }}">
+```
