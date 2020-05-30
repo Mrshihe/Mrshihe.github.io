@@ -1,38 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>hexo+gitPages搭建简单博客</title>
-    <url>/2018/05/26/hexo-gitPages%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h3 id="基于hexo和gitPages搭建的博客"><a href="#基于hexo和gitPages搭建的博客" class="headerlink" title="基于hexo和gitPages搭建的博客"></a>基于hexo和gitPages搭建的博客</h3><p>只是用来记录一些工作心得，所以怎么简单怎么来</p>
-<a id="more"></a>
-<h3 id="hexo-常用命令"><a href="#hexo-常用命令" class="headerlink" title="hexo 常用命令"></a>hexo 常用命令</h3><ol>
-<li>hexo generate (hexo g)  生成一个存放静态文件的文件夹</li>
-<li>hexo server (hexo s)  启动本地服务器预览博客内容</li>
-<li>hexo deploy  当前目录文件下生成.deploy_git文件夹,并且把生成的静态文件上传到github上,需提前写好_config.yml</li>
-<li>hexo new post 文章名 在根目录下的source/_posts下生成一个md文件,编辑此文件写文章</li>
-<li>hexo clean  清除缓存文件 db.json 和 生成的静态文件夹 public</li>
-</ol>
-<hr>
-<h3 id="常用组合命令"><a href="#常用组合命令" class="headerlink" title="常用组合命令"></a>常用组合命令</h3><p>hexo clean + hexo g + hexo s 本地预览博客文章<br>hexo clean + hexo g + hexo d 发布到github上<br>*hexo g/hexo d合并时候简写命令为 hexo g -d</p>
-<hr>
-<h3 id="hexo遇到的问题"><a href="#hexo遇到的问题" class="headerlink" title="hexo遇到的问题"></a>hexo遇到的问题</h3><p>1.全局安装后提示hexo不是命令提示符，解决办法:<br>①用git Bash 安装即可<br>②将安装包的位置添加到环境变量中</p>
-<p>2.hexo d 提示 error deployer not found:github, 解决办法:<br>安装hexo-deployer-git // npm install hexo-deployer-git –save</p>
-<h2 id="hexo使用了next主题"><a href="#hexo使用了next主题" class="headerlink" title="hexo使用了next主题"></a>hexo使用了next主题</h2><p>1.新增tags标签页<br>① hexo new page “tags”  新增一个tags页面,此时在source下生成一个tags文件夹,里面包含一个index.md<br>② 编辑刚才生成的这个index.md页面 新增 type: ‘tags’<br>③ 进入主题配置文件(_config.yml) 新增tags</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F;|| home</span><br><span class="line">  tags: &#x2F;tags&#x2F;|| tags</span><br></pre></td></tr></table></figure>
-<hr>
-<p>2.新增搜索功能<br>① hexo根目录下安装 npm install hexo-generator-searchdb –save<br>② 修改配置文件(theme/next/_config.yml)</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">  enable: true #默认为false</span><br></pre></td></tr></table></figure>
-<p>③ 配置文件中新增</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post #搜索范围 post文章</span><br><span class="line">  format: html</span><br><span class="line">  limit: 1000 #搜索限制条数</span><br></pre></td></tr></table></figure>
-<h3 id="折腾了一下next点击日志的时候跳转错误"><a href="#折腾了一下next点击日志的时候跳转错误" class="headerlink" title="折腾了一下next点击日志的时候跳转错误"></a>折腾了一下next点击日志的时候跳转错误</h3><p>版本更新一下后 点击日志突然报错 Cannot GET /archives/%7C%7C%20archive/<br>heox pagejson “version”: “5.1.4”<br>解决办法<br>在next主题下 sidebar.swig下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives).split(&#39;||&#39;)[0] | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>
-<p>改为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives.split(&#39;||&#39;)[0]) | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>]]></content>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>flex容器分配问题</title>
     <url>/2019/03/20/flex%E5%AE%B9%E5%99%A8%E5%88%86%E9%85%8D%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h3 id="flex让自使用布局变得比较简单-本文记录一下flex如何分配空间"><a href="#flex让自使用布局变得比较简单-本文记录一下flex如何分配空间" class="headerlink" title="flex让自使用布局变得比较简单,本文记录一下flex如何分配空间"></a>flex让自使用布局变得比较简单,本文记录一下flex如何分配空间</h3><p><strong><em>本文所有情况只适用与flex-basis不为auto的情况,flex-basis为auto的时候,情况比较复杂</em></strong></p>
@@ -89,6 +57,119 @@
 ]]></content>
       <tags>
         <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo+gitPages搭建简单博客</title>
+    <url>/2018/05/26/hexo-gitPages%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h3 id="基于hexo和gitPages搭建的博客"><a href="#基于hexo和gitPages搭建的博客" class="headerlink" title="基于hexo和gitPages搭建的博客"></a>基于hexo和gitPages搭建的博客</h3><p>只是用来记录一些工作心得，所以怎么简单怎么来</p>
+<a id="more"></a>
+<h3 id="hexo-常用命令"><a href="#hexo-常用命令" class="headerlink" title="hexo 常用命令"></a>hexo 常用命令</h3><ol>
+<li>hexo generate (hexo g)  生成一个存放静态文件的文件夹</li>
+<li>hexo server (hexo s)  启动本地服务器预览博客内容</li>
+<li>hexo deploy  当前目录文件下生成.deploy_git文件夹,并且把生成的静态文件上传到github上,需提前写好_config.yml</li>
+<li>hexo new post 文章名 在根目录下的source/_posts下生成一个md文件,编辑此文件写文章</li>
+<li>hexo clean  清除缓存文件 db.json 和 生成的静态文件夹 public</li>
+</ol>
+<hr>
+<h3 id="常用组合命令"><a href="#常用组合命令" class="headerlink" title="常用组合命令"></a>常用组合命令</h3><p>hexo clean + hexo g + hexo s 本地预览博客文章<br>hexo clean + hexo g + hexo d 发布到github上<br>*hexo g/hexo d合并时候简写命令为 hexo g -d</p>
+<hr>
+<h3 id="hexo遇到的问题"><a href="#hexo遇到的问题" class="headerlink" title="hexo遇到的问题"></a>hexo遇到的问题</h3><p>1.全局安装后提示hexo不是命令提示符，解决办法:<br>①用git Bash 安装即可<br>②将安装包的位置添加到环境变量中</p>
+<p>2.hexo d 提示 error deployer not found:github, 解决办法:<br>安装hexo-deployer-git // npm install hexo-deployer-git –save</p>
+<h2 id="hexo使用了next主题"><a href="#hexo使用了next主题" class="headerlink" title="hexo使用了next主题"></a>hexo使用了next主题</h2><p>1.新增tags标签页<br>① hexo new page “tags”  新增一个tags页面,此时在source下生成一个tags文件夹,里面包含一个index.md<br>② 编辑刚才生成的这个index.md页面 新增 type: ‘tags’<br>③ 进入主题配置文件(_config.yml) 新增tags</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F;|| home</span><br><span class="line">  tags: &#x2F;tags&#x2F;|| tags</span><br></pre></td></tr></table></figure>
+<hr>
+<p>2.新增搜索功能<br>① hexo根目录下安装 npm install hexo-generator-searchdb –save<br>② 修改配置文件(theme/next/_config.yml)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">  enable: true #默认为false</span><br></pre></td></tr></table></figure>
+<p>③ 配置文件中新增</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post #搜索范围 post文章</span><br><span class="line">  format: html</span><br><span class="line">  limit: 1000 #搜索限制条数</span><br></pre></td></tr></table></figure>
+<h3 id="折腾了一下next点击日志的时候跳转错误"><a href="#折腾了一下next点击日志的时候跳转错误" class="headerlink" title="折腾了一下next点击日志的时候跳转错误"></a>折腾了一下next点击日志的时候跳转错误</h3><p>版本更新一下后 点击日志突然报错 Cannot GET /archives/%7C%7C%20archive/<br>heox pagejson “version”: “5.1.4”<br>解决办法<br>在next主题下 sidebar.swig下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives).split(&#39;||&#39;)[0] | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>改为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives.split(&#39;||&#39;)[0]) | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>set/map的区别</title>
+    <url>/2019/06/24/set-map%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<p>Set/WeakSet/Map/WeakMap 傻傻分不清楚<br>Set和Map是ES6中新定义的数据结构,记录一下</p>
+<a id="more"></a>
+
+<h3 id="Set-对象允许你储存任何类型的唯一值，无论是原始值或者是对象引用"><a href="#Set-对象允许你储存任何类型的唯一值，无论是原始值或者是对象引用" class="headerlink" title="Set 对象允许你储存任何类型的唯一值，无论是原始值或者是对象引用"></a>Set 对象允许你储存任何类型的唯一值，无论是原始值或者是对象引用</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">new Set([iterable]);</span><br></pre></td></tr></table></figure>
+<p>如果传递一个可迭代对象,它的所有元素将不重复地被添加到新的Set中. 如果不指定此参数或其值为null,则新的Set为空</p>
+<blockquote>
+<p>目前所有的内置可迭代对象如下：String、Array、TypedArray、Map 和 Set  <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Iteration_protocols" target="_blank" rel="noopener">MDN</a></p>
+</blockquote>
+<p>向Set加入值的时候,不会发生类型转换,set内NaN和NaN是相等的<br>set的实例属性: size 返回set对象值的个数</p>
+<p>set的方法:</p>
+<ul>
+<li>add(value) 在Set对象尾部添加一个元素,返回该Set对象</li>
+<li>clear() 移除Set对象内的所有元素</li>
+<li>delete(value) 移除Set的中与这个值相等的元素</li>
+<li>has(value) 返回一个布尔值,表示该值在Set中存在与否</li>
+<li>keys()/values() 返回一个新的迭代器对象,该对象包含Set对象中的按插入顺序排列的所有元素的值</li>
+<li>entries() 返回一个新的迭代器对象,该对象包含Set对象中的按插入顺序排列的所有元素的值的[value, value]数组.为了使这个方法和Map对象保持相似,每个值的键和值相等</li>
+</ul>
+<h4 id="WeakSet-对象允许你将弱保持对象存储在一个集合中"><a href="#WeakSet-对象允许你将弱保持对象存储在一个集合中" class="headerlink" title="WeakSet 对象允许你将弱保持对象存储在一个集合中"></a>WeakSet 对象允许你将弱保持对象存储在一个集合中</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">new WeakSet([iterable]);</span><br></pre></td></tr></table></figure>
+<p>如果传入一个可迭代对象作为参数,则该对象的所有迭代值都会被自动添加进生成的WeakSet对象中, null 被认为是 undefined</p>
+<p>weakset的方法</p>
+<ul>
+<li>add(value)  在该 WeakSet 对象中添加一个新元素 value</li>
+<li>delete(value) 从该 WeakSet 对象中删除 value 这个元素</li>
+<li>has(value) 返回一个布尔值,表示给定的值 value 是否存在于这个 WeakSet 中</li>
+</ul>
+<h3 id="set与weakset的区别"><a href="#set与weakset的区别" class="headerlink" title="set与weakset的区别"></a>set与weakset的区别</h3><ol>
+<li>set可以存放任何类型的值,而weakset只能存放对象引用</li>
+<li>set可以循环遍历,而weakset不可以遍历(WeakSet 对象中储存的对象值都是被弱引用的,垃圾回收机制不考虑 WeakSet 对该对象的应用,如果没有其他的变量或属性引用这个对象值,则这个对象将会被垃圾回收掉,不考虑该对象还存在于 WeakSet 中)</li>
+</ol>
+<hr>
+<h3 id="Map对象保存键值对-并且能够记住键的原始插入顺序-任何值-对象或者原始值-都可以作为一个键或一个值"><a href="#Map对象保存键值对-并且能够记住键的原始插入顺序-任何值-对象或者原始值-都可以作为一个键或一个值" class="headerlink" title="Map对象保存键值对,并且能够记住键的原始插入顺序,任何值(对象或者原始值) 都可以作为一个键或一个值"></a>Map对象保存键值对,并且能够记住键的原始插入顺序,任何值(对象或者原始值) 都可以作为一个键或一个值</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">new Map()</span><br></pre></td></tr></table></figure>
+<p>Map中只存在唯一的键(NaN在Map中被认为是相等的)</p>
+<h4 id="Map和object区别"><a href="#Map和object区别" class="headerlink" title="Map和object区别"></a>Map和object区别</h4><ol>
+<li>Map默认不包含任何键, Object有原型链,原型链上的键名可能是自己设置的键名冲突</li>
+<li>Map的键可以是任何类型, Object的键只能是 Sting / Symbol 类型</li>
+<li>Map中的键是有序的,按插入顺序返回, Object的键无序</li>
+<li>Map的键值对个数通过size直接获取, Object需要手动计算</li>
+<li>频繁的操作下Map表现更好</li>
+<li>Map可以直接迭代, Object需要获取它的键然后才能迭代</li>
+</ol>
+<p>map的方法</p>
+<ul>
+<li>set(key, value) 设置Map对象中键的值,返回该Map对象</li>
+<li>delete(key) 如果 Map 对象中存在该元素,则移除它并返回true;否则如果该元素不存在则返回false</li>
+<li>get(key) 返回键对应的值,如果不存在,则返回undefined</li>
+<li>has(key) 返回一个布尔值,表示Map实例是否包含键对应的值</li>
+<li>keys() 返回一个新的Iterator对象,它按插入顺序包含了Map对象中每个元素的<em>键</em></li>
+<li>values() 返回一个新的Iterator对象,它按插入顺序包含了Map对象中每个元素的<em>值</em></li>
+<li>clear() 移除Map对象的所有键/值对</li>
+</ul>
+<h4 id="WeakMap-对象是一组键-值对的集合-其中的键是弱引用的-其键必须是对象-而值可以是任意的"><a href="#WeakMap-对象是一组键-值对的集合-其中的键是弱引用的-其键必须是对象-而值可以是任意的" class="headerlink" title="WeakMap 对象是一组键/值对的集合,其中的键是弱引用的. 其键必须是对象,而值可以是任意的"></a>WeakMap 对象是一组键/值对的集合,其中的键是弱引用的. 其键必须是对象,而值可以是任意的</h4><p>weakMap的方法: </p>
+<ul>
+<li>set(key, value) 在WeakMap中设置一组key关联对象,返回这个 WeakMap对象</li>
+<li>get(key) 返回key关联对象,或者undefined(没有key关联对象时)</li>
+<li>has(key) 根据是否有key关联对象返回一个Boolean值</li>
+<li>delete(key) 移除key的关联对象</li>
+</ul>
+<h3 id="Map和WeakMap的区别"><a href="#Map和WeakMap的区别" class="headerlink" title="Map和WeakMap的区别"></a>Map和WeakMap的区别</h3><ol>
+<li>Map的键可以是任何类型,WeakMap的键只能是对象</li>
+<li>Map可以遍历,WeakMap不可以遍历</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Set</p>
+<ul>
+<li>成员唯一,可以是任何类型,无序</li>
+<li>只有值没有键,可遍历<br>WeakSet</li>
+<li>成员只能是对象</li>
+<li>成员都是弱引用,可被垃圾机制回收,不可遍历<br>Map</li>
+<li>按插入顺序存放键值对,键可以是任何类型</li>
+<li>可遍历<br>WebkMap</li>
+<li>只能对象做为键(null除外),不可遍历</li>
+<li>键被垃圾回收后,键无效</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>js</tag>
       </tags>
   </entry>
 </search>
