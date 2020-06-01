@@ -60,35 +60,31 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo+gitPages搭建简单博客</title>
-    <url>/2018/05/26/hexo-gitPages%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h3 id="基于hexo和gitPages搭建的博客"><a href="#基于hexo和gitPages搭建的博客" class="headerlink" title="基于hexo和gitPages搭建的博客"></a>基于hexo和gitPages搭建的博客</h3><p>只是用来记录一些工作心得，所以怎么简单怎么来</p>
+    <title>存储那些事</title>
+    <url>/2018/03/01/%E5%AD%98%E5%82%A8%E9%82%A3%E4%BA%9B%E4%BA%8B/</url>
+    <content><![CDATA[<p>记录一下浏览器存储的成员 cookie/localStorage/sessionStorage</p>
 <a id="more"></a>
-<h3 id="hexo-常用命令"><a href="#hexo-常用命令" class="headerlink" title="hexo 常用命令"></a>hexo 常用命令</h3><ol>
-<li>hexo generate (hexo g)  生成一个存放静态文件的文件夹</li>
-<li>hexo server (hexo s)  启动本地服务器预览博客内容</li>
-<li>hexo deploy  当前目录文件下生成.deploy_git文件夹,并且把生成的静态文件上传到github上,需提前写好_config.yml</li>
-<li>hexo new post 文章名 在根目录下的source/_posts下生成一个md文件,编辑此文件写文章</li>
-<li>hexo clean  清除缓存文件 db.json 和 生成的静态文件夹 public</li>
-</ol>
-<hr>
-<h3 id="常用组合命令"><a href="#常用组合命令" class="headerlink" title="常用组合命令"></a>常用组合命令</h3><p>hexo clean + hexo g + hexo s 本地预览博客文章<br>hexo clean + hexo g + hexo d 发布到github上<br>*hexo g/hexo d合并时候简写命令为 hexo g -d</p>
-<hr>
-<h3 id="hexo遇到的问题"><a href="#hexo遇到的问题" class="headerlink" title="hexo遇到的问题"></a>hexo遇到的问题</h3><p>1.全局安装后提示hexo不是命令提示符，解决办法:<br>①用git Bash 安装即可<br>②将安装包的位置添加到环境变量中</p>
-<p>2.hexo d 提示 error deployer not found:github, 解决办法:<br>安装hexo-deployer-git // npm install hexo-deployer-git –save</p>
-<h2 id="hexo使用了next主题"><a href="#hexo使用了next主题" class="headerlink" title="hexo使用了next主题"></a>hexo使用了next主题</h2><p>1.新增tags标签页<br>① hexo new page “tags”  新增一个tags页面,此时在source下生成一个tags文件夹,里面包含一个index.md<br>② 编辑刚才生成的这个index.md页面 新增 type: ‘tags’<br>③ 进入主题配置文件(_config.yml) 新增tags</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F;|| home</span><br><span class="line">  tags: &#x2F;tags&#x2F;|| tags</span><br></pre></td></tr></table></figure>
-<hr>
-<p>2.新增搜索功能<br>① hexo根目录下安装 npm install hexo-generator-searchdb –save<br>② 修改配置文件(theme/next/_config.yml)</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">  enable: true #默认为false</span><br></pre></td></tr></table></figure>
-<p>③ 配置文件中新增</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post #搜索范围 post文章</span><br><span class="line">  format: html</span><br><span class="line">  limit: 1000 #搜索限制条数</span><br></pre></td></tr></table></figure>
-<h3 id="折腾了一下next点击日志的时候跳转错误"><a href="#折腾了一下next点击日志的时候跳转错误" class="headerlink" title="折腾了一下next点击日志的时候跳转错误"></a>折腾了一下next点击日志的时候跳转错误</h3><p>版本更新一下后 点击日志突然报错 Cannot GET /archives/%7C%7C%20archive/<br>heox pagejson “version”: “5.1.4”<br>解决办法<br>在next主题下 sidebar.swig下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives).split(&#39;||&#39;)[0] | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>
-<p>改为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives.split(&#39;||&#39;)[0]) | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>]]></content>
+<p>一. cookie<br>document.cookie 可以获取当前所有cookie值, 每条cookie以键值对方式存在, 并且以分号和空格分离.</p>
+<p>cookie格式如下:<br>① name=value(必须)cookie的名称和存储的值<br>② domain 对于哪个域名有效,默认为当前文档位置的路径的域名部分<br>③ path cookie路径,默认为当前文档位置的路径<br>④ expires cookie的过期时间,表示cookie何时应该被删除的时间戳,如果没有定义,cookie会在对话结束时过期<br>⑤ max-age cookie过期时间,单位是秒,优先级高于expires<br>⑥ httpOnly 告知浏览器不允许通过脚本document.cookie去更改这个值,同样这个值在document.cookie中也不可见<br>⑦ secure cookie只通过https协议传输</p>
+<p>cookie满足同源策略,cookie大小在4K左右,一般不同浏览器下存储个数也不一样, chrome-53/safari-无限制<br>cookie每次都参与服务器请求,一般都由服务端设置</p>
+<p>二. localStorage<br>localStore不参与服务端请求,一般大小在5M左右,只支持String格式存储(通常以Key/value的形式),需要手动进行删除<br>localStorage的方法:</p>
+<ul>
+<li>setItem(key, value) 新增一个项</li>
+<li>getItem(key) 读取一个项</li>
+<li>removeItem(key) 移除一个项</li>
+<li>clear() 移除所有项</li>
+</ul>
+<p>三. sessionStorage<br>sessionStorage不参与服务端请求,一般大小在5M左右,只支持String格式存储(以Key/value的形式),关闭浏览器sessionStorage就会被清除<br><em>打开多个相同的URL的Tabs页面,会创建各自的sessionStorage</em><br>sessionStroage的方法:</p>
+<ul>
+<li>setItem(key, value) 新增一个项</li>
+<li>getItem(key) 读取一个项</li>
+<li>removeItem(key) 移除一个项</li>
+<li>clear() 移除所有项</li>
+</ul>
+<p>总结:<br>1.生命周期<br>cookie设置过期时间, localStorage永久存储,除非手动清除, sessionStorage浏览器关闭的时候清除<br>2.数据存储大小<br>cookie-4K,浏览器不同,可设置的条数不同 localStorage/sessionStorage都是5M<br>3.与服务器通信<br>cookie每次都会携带在header中, localStorage/sessionStorage不参与服务端通信</p>
+]]></content>
       <tags>
-        <tag>hexo</tag>
+        <tag>js</tag>
       </tags>
   </entry>
   <entry>
@@ -170,6 +166,38 @@
 ]]></content>
       <tags>
         <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo+gitPages搭建简单博客</title>
+    <url>/2018/01/26/hexo-gitPages%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h3 id="基于hexo和gitPages搭建的博客"><a href="#基于hexo和gitPages搭建的博客" class="headerlink" title="基于hexo和gitPages搭建的博客"></a>基于hexo和gitPages搭建的博客</h3><p>只是用来记录一些工作心得，所以怎么简单怎么来</p>
+<a id="more"></a>
+<h3 id="hexo-常用命令"><a href="#hexo-常用命令" class="headerlink" title="hexo 常用命令"></a>hexo 常用命令</h3><ol>
+<li>hexo generate (hexo g)  生成一个存放静态文件的文件夹</li>
+<li>hexo server (hexo s)  启动本地服务器预览博客内容</li>
+<li>hexo deploy  当前目录文件下生成.deploy_git文件夹,并且把生成的静态文件上传到github上,需提前写好_config.yml</li>
+<li>hexo new post 文章名 在根目录下的source/_posts下生成一个md文件,编辑此文件写文章</li>
+<li>hexo clean  清除缓存文件 db.json 和 生成的静态文件夹 public</li>
+</ol>
+<hr>
+<h3 id="常用组合命令"><a href="#常用组合命令" class="headerlink" title="常用组合命令"></a>常用组合命令</h3><p>hexo clean + hexo g + hexo s 本地预览博客文章<br>hexo clean + hexo g + hexo d 发布到github上<br>*hexo g/hexo d合并时候简写命令为 hexo g -d</p>
+<hr>
+<h3 id="hexo遇到的问题"><a href="#hexo遇到的问题" class="headerlink" title="hexo遇到的问题"></a>hexo遇到的问题</h3><p>1.全局安装后提示hexo不是命令提示符，解决办法:<br>①用git Bash 安装即可<br>②将安装包的位置添加到环境变量中</p>
+<p>2.hexo d 提示 error deployer not found:github, 解决办法:<br>安装hexo-deployer-git // npm install hexo-deployer-git –save</p>
+<h2 id="hexo使用了next主题"><a href="#hexo使用了next主题" class="headerlink" title="hexo使用了next主题"></a>hexo使用了next主题</h2><p>1.新增tags标签页<br>① hexo new page “tags”  新增一个tags页面,此时在source下生成一个tags文件夹,里面包含一个index.md<br>② 编辑刚才生成的这个index.md页面 新增 type: ‘tags’<br>③ 进入主题配置文件(_config.yml) 新增tags</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F;|| home</span><br><span class="line">  tags: &#x2F;tags&#x2F;|| tags</span><br></pre></td></tr></table></figure>
+<hr>
+<p>2.新增搜索功能<br>① hexo根目录下安装 npm install hexo-generator-searchdb –save<br>② 修改配置文件(theme/next/_config.yml)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">  enable: true #默认为false</span><br></pre></td></tr></table></figure>
+<p>③ 配置文件中新增</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post #搜索范围 post文章</span><br><span class="line">  format: html</span><br><span class="line">  limit: 1000 #搜索限制条数</span><br></pre></td></tr></table></figure>
+<h3 id="折腾了一下next点击日志的时候跳转错误"><a href="#折腾了一下next点击日志的时候跳转错误" class="headerlink" title="折腾了一下next点击日志的时候跳转错误"></a>折腾了一下next点击日志的时候跳转错误</h3><p>版本更新一下后 点击日志突然报错 Cannot GET /archives/%7C%7C%20archive/<br>heox pagejson “version”: “5.1.4”<br>解决办法<br>在next主题下 sidebar.swig下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives).split(&#39;||&#39;)[0] | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>改为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives.split(&#39;||&#39;)[0]) | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
 </search>
