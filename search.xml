@@ -60,31 +60,87 @@
       </tags>
   </entry>
   <entry>
-    <title>存储那些事</title>
-    <url>/2018/03/01/%E5%AD%98%E5%82%A8%E9%82%A3%E4%BA%9B%E4%BA%8B/</url>
-    <content><![CDATA[<p>记录一下浏览器存储的成员 cookie/localStorage/sessionStorage</p>
+    <title>git常用操作</title>
+    <url>/2019/06/02/git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<p>记录一下常用的git命令</p>
 <a id="more"></a>
-<p>一. cookie<br>document.cookie 可以获取当前所有cookie值, 每条cookie以键值对方式存在, 并且以分号和空格分离.</p>
-<p>cookie格式如下:<br>① name=value(必须)cookie的名称和存储的值<br>② domain 对于哪个域名有效,默认为当前文档位置的路径的域名部分<br>③ path cookie路径,默认为当前文档位置的路径<br>④ expires cookie的过期时间,表示cookie何时应该被删除的时间戳,如果没有定义,cookie会在对话结束时过期<br>⑤ max-age cookie过期时间,单位是秒,优先级高于expires<br>⑥ httpOnly 告知浏览器不允许通过脚本document.cookie去更改这个值,同样这个值在document.cookie中也不可见<br>⑦ secure cookie只通过https协议传输</p>
-<p>cookie满足同源策略,cookie大小在4K左右,一般不同浏览器下存储个数也不一样, chrome-53/safari-无限制<br>cookie每次都参与服务器请求,一般都由服务端设置</p>
-<p>二. localStorage<br>localStore不参与服务端请求,一般大小在5M左右,只支持String格式存储(通常以Key/value的形式),需要手动进行删除<br>localStorage的方法:</p>
-<ul>
-<li>setItem(key, value) 新增一个项</li>
-<li>getItem(key) 读取一个项</li>
-<li>removeItem(key) 移除一个项</li>
-<li>clear() 移除所有项</li>
-</ul>
-<p>三. sessionStorage<br>sessionStorage不参与服务端请求,一般大小在5M左右,只支持String格式存储(以Key/value的形式),关闭浏览器sessionStorage就会被清除<br><em>打开多个相同的URL的Tabs页面,会创建各自的sessionStorage</em><br>sessionStroage的方法:</p>
-<ul>
-<li>setItem(key, value) 新增一个项</li>
-<li>getItem(key) 读取一个项</li>
-<li>removeItem(key) 移除一个项</li>
-<li>clear() 移除所有项</li>
-</ul>
-<p>总结:<br>1.生命周期<br>cookie设置过期时间, localStorage永久存储,除非手动清除, sessionStorage浏览器关闭的时候清除<br>2.数据存储大小<br>cookie-4K,浏览器不同,可设置的条数不同 localStorage/sessionStorage都是5M<br>3.与服务器通信<br>cookie每次都会携带在header中, localStorage/sessionStorage不参与服务端通信</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+<p>创建一个本地仓库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone [git-url] [user-name]</span><br></pre></td></tr></table></figure>
+<p>克隆一个远程仓库到本地,并且重命名 user-name可省,默认为远程仓库名</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone -b [git-branch] [git-url] [user-name]</span><br></pre></td></tr></table></figure>
+<p>从指定分支分支克隆远程仓库到本地,并且重命名 user-name可省</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote [git-params]</span><br></pre></td></tr></table></figure>
+<p>列出远程仓库别名,默认会有(fetch/push)两条数据,这是因为git允许你为每个仓库添加不同的推送和获取连接,默认git-params缺省,此时只显示别名<br>git-params<br>-v 列出远程仓库别名和地址</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote add [git-alias] [git-url]</span><br></pre></td></tr></table></figure>
+<p>添加一个远程仓库, git-alias通常为origin </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote rm [git-alias]</span><br></pre></td></tr></table></figure>
+<p>删除一个远程仓库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git add . &#x2F; git add [file]</span><br></pre></td></tr></table></figure>
+<p>添加文件到缓存区, .表示全部文件 file表示指定文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git reset HEAD [add-file]</span><br></pre></td></tr></table></figure>
+<p>用于git add后撤销操作, add-flie省略则对上次add操作全部撤销</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git status [git-params]</span><br></pre></td></tr></table></figure>
+<p>查看工作目录和缓存区的状态<br>git-params<br>-s 简洁方式输出,只提示文件和状态</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git commit -m &#39;&#39;</span><br></pre></td></tr></table></figure>
+<p>提交至本地仓库,并备注</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git reset [git-params] [commit-id]</span><br></pre></td></tr></table></figure>
+<p>撤销commit操作, git log 获取提交信息, 得到commit-id<br>git-params:<br>–mixed(默认) 撤销git commit, 撤销git add, 保留编辑器改动代码<br>–soft 撤销git commit, 不撤销git add, 保留编辑器改动代码<br>–hard 撤销git commit, 撤销git add, 删除编辑器改动代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git reset --mixed HEAD^&#x2F;HEAD~1</span><br></pre></td></tr></table></figure>
+<p>也是撤销操作 HEAD^(HEAD~1)表示上一版</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git pull [git-alias] [online-git-branch]:[local-git-branch]</span><br></pre></td></tr></table></figure>
+<p>将远程仓库git-alias下的online-git-branch远程分支拉取下去与local-git-branch本地分支合并, local-git-branch可省略,此时默认与当前分支合并</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push [git-alias] [local-git-branch] [online-git-branch]</span><br></pre></td></tr></table></figure>
+<p>将local-git-branch本地分支上的内容推送到git-alias远程仓库上的online-git-branch分支<br>online-git-branch 可省,则表示将本地分支推送到与之存在追踪关系的远程分支(通常两者同名),如果该远程分支不存在,则会被新建</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git branch [branch-name]</span><br></pre></td></tr></table></figure>
+<p>创建本地分支</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git checkout [branch-name]</span><br></pre></td></tr></table></figure>
+<p>切换到指定分支</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git checkout -b [branch-name]</span><br></pre></td></tr></table></figure>
+<p>创建并切换到指定分支</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git branch -a</span><br></pre></td></tr></table></figure>
+<p>查看所有分支,以及当前所处分支, -a省略则查看本地分支</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git branch -D [branch-name]</span><br></pre></td></tr></table></figure>
+<p>删除本地分支,(处于该分支时不能删除)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git fetch [git-alias] [git-branch]</span><br></pre></td></tr></table></figure>
+<p>从远程仓库git-alias拉取git-branch到本地仓库, git-branch省略,则拉取所有分支最新信息,包含新建分支</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git merge [git-alias&#x2F;git-branch]</span><br></pre></td></tr></table></figure>
+<p>把git-alias/git-branch分支上的内容合并到当前分支上(分支写法有些特殊,同时包含远程仓库名/远程分支)</p>
 ]]></content>
       <tags>
-        <tag>js</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo+gitPages搭建简单博客</title>
+    <url>/2018/01/26/hexo-gitPages%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h3 id="基于hexo和gitPages搭建的博客"><a href="#基于hexo和gitPages搭建的博客" class="headerlink" title="基于hexo和gitPages搭建的博客"></a>基于hexo和gitPages搭建的博客</h3><p>只是用来记录一些工作心得，所以怎么简单怎么来</p>
+<a id="more"></a>
+<h3 id="hexo-常用命令"><a href="#hexo-常用命令" class="headerlink" title="hexo 常用命令"></a>hexo 常用命令</h3><ol>
+<li>hexo generate (hexo g)  生成一个存放静态文件的文件夹</li>
+<li>hexo server (hexo s)  启动本地服务器预览博客内容</li>
+<li>hexo deploy  当前目录文件下生成.deploy_git文件夹,并且把生成的静态文件上传到github上,需提前写好_config.yml</li>
+<li>hexo new post 文章名 在根目录下的source/_posts下生成一个md文件,编辑此文件写文章</li>
+<li>hexo clean  清除缓存文件 db.json 和 生成的静态文件夹 public</li>
+</ol>
+<hr>
+<h3 id="常用组合命令"><a href="#常用组合命令" class="headerlink" title="常用组合命令"></a>常用组合命令</h3><p>hexo clean + hexo g + hexo s 本地预览博客文章<br>hexo clean + hexo g + hexo d 发布到github上<br>*hexo g/hexo d合并时候简写命令为 hexo g -d</p>
+<hr>
+<h3 id="hexo遇到的问题"><a href="#hexo遇到的问题" class="headerlink" title="hexo遇到的问题"></a>hexo遇到的问题</h3><p>1.全局安装后提示hexo不是命令提示符，解决办法:<br>①用git Bash 安装即可<br>②将安装包的位置添加到环境变量中</p>
+<p>2.hexo d 提示 error deployer not found:github, 解决办法:<br>安装hexo-deployer-git // npm install hexo-deployer-git –save</p>
+<h2 id="hexo使用了next主题"><a href="#hexo使用了next主题" class="headerlink" title="hexo使用了next主题"></a>hexo使用了next主题</h2><p>1.新增tags标签页<br>① hexo new page “tags”  新增一个tags页面,此时在source下生成一个tags文件夹,里面包含一个index.md<br>② 编辑刚才生成的这个index.md页面 新增 type: ‘tags’<br>③ 进入主题配置文件(_config.yml) 新增tags</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F;|| home</span><br><span class="line">  tags: &#x2F;tags&#x2F;|| tags</span><br></pre></td></tr></table></figure>
+<hr>
+<p>2.新增搜索功能<br>① hexo根目录下安装 npm install hexo-generator-searchdb –save<br>② 修改配置文件(theme/next/_config.yml)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">  enable: true #默认为false</span><br></pre></td></tr></table></figure>
+<p>③ 配置文件中新增</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post #搜索范围 post文章</span><br><span class="line">  format: html</span><br><span class="line">  limit: 1000 #搜索限制条数</span><br></pre></td></tr></table></figure>
+<h3 id="折腾了一下next点击日志的时候跳转错误"><a href="#折腾了一下next点击日志的时候跳转错误" class="headerlink" title="折腾了一下next点击日志的时候跳转错误"></a>折腾了一下next点击日志的时候跳转错误</h3><p>版本更新一下后 点击日志突然报错 Cannot GET /archives/%7C%7C%20archive/<br>heox pagejson “version”: “5.1.4”<br>解决办法<br>在next主题下 sidebar.swig下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives).split(&#39;||&#39;)[0] | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>改为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives.split(&#39;||&#39;)[0]) | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -169,35 +225,31 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo+gitPages搭建简单博客</title>
-    <url>/2018/01/26/hexo-gitPages%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h3 id="基于hexo和gitPages搭建的博客"><a href="#基于hexo和gitPages搭建的博客" class="headerlink" title="基于hexo和gitPages搭建的博客"></a>基于hexo和gitPages搭建的博客</h3><p>只是用来记录一些工作心得，所以怎么简单怎么来</p>
+    <title>存储那些事</title>
+    <url>/2018/03/01/%E5%AD%98%E5%82%A8%E9%82%A3%E4%BA%9B%E4%BA%8B/</url>
+    <content><![CDATA[<p>记录一下浏览器存储的成员 cookie/localStorage/sessionStorage</p>
 <a id="more"></a>
-<h3 id="hexo-常用命令"><a href="#hexo-常用命令" class="headerlink" title="hexo 常用命令"></a>hexo 常用命令</h3><ol>
-<li>hexo generate (hexo g)  生成一个存放静态文件的文件夹</li>
-<li>hexo server (hexo s)  启动本地服务器预览博客内容</li>
-<li>hexo deploy  当前目录文件下生成.deploy_git文件夹,并且把生成的静态文件上传到github上,需提前写好_config.yml</li>
-<li>hexo new post 文章名 在根目录下的source/_posts下生成一个md文件,编辑此文件写文章</li>
-<li>hexo clean  清除缓存文件 db.json 和 生成的静态文件夹 public</li>
-</ol>
-<hr>
-<h3 id="常用组合命令"><a href="#常用组合命令" class="headerlink" title="常用组合命令"></a>常用组合命令</h3><p>hexo clean + hexo g + hexo s 本地预览博客文章<br>hexo clean + hexo g + hexo d 发布到github上<br>*hexo g/hexo d合并时候简写命令为 hexo g -d</p>
-<hr>
-<h3 id="hexo遇到的问题"><a href="#hexo遇到的问题" class="headerlink" title="hexo遇到的问题"></a>hexo遇到的问题</h3><p>1.全局安装后提示hexo不是命令提示符，解决办法:<br>①用git Bash 安装即可<br>②将安装包的位置添加到环境变量中</p>
-<p>2.hexo d 提示 error deployer not found:github, 解决办法:<br>安装hexo-deployer-git // npm install hexo-deployer-git –save</p>
-<h2 id="hexo使用了next主题"><a href="#hexo使用了next主题" class="headerlink" title="hexo使用了next主题"></a>hexo使用了next主题</h2><p>1.新增tags标签页<br>① hexo new page “tags”  新增一个tags页面,此时在source下生成一个tags文件夹,里面包含一个index.md<br>② 编辑刚才生成的这个index.md页面 新增 type: ‘tags’<br>③ 进入主题配置文件(_config.yml) 新增tags</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F;|| home</span><br><span class="line">  tags: &#x2F;tags&#x2F;|| tags</span><br></pre></td></tr></table></figure>
-<hr>
-<p>2.新增搜索功能<br>① hexo根目录下安装 npm install hexo-generator-searchdb –save<br>② 修改配置文件(theme/next/_config.yml)</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">  enable: true #默认为false</span><br></pre></td></tr></table></figure>
-<p>③ 配置文件中新增</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post #搜索范围 post文章</span><br><span class="line">  format: html</span><br><span class="line">  limit: 1000 #搜索限制条数</span><br></pre></td></tr></table></figure>
-<h3 id="折腾了一下next点击日志的时候跳转错误"><a href="#折腾了一下next点击日志的时候跳转错误" class="headerlink" title="折腾了一下next点击日志的时候跳转错误"></a>折腾了一下next点击日志的时候跳转错误</h3><p>版本更新一下后 点击日志突然报错 Cannot GET /archives/%7C%7C%20archive/<br>heox pagejson “version”: “5.1.4”<br>解决办法<br>在next主题下 sidebar.swig下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives).split(&#39;||&#39;)[0] | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>
-<p>改为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives.split(&#39;||&#39;)[0]) | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>]]></content>
+<p>一. cookie<br>document.cookie 可以获取当前所有cookie值, 每条cookie以键值对方式存在, 并且以分号和空格分离.</p>
+<p>cookie格式如下:<br>① name=value(必须)cookie的名称和存储的值<br>② domain 对于哪个域名有效,默认为当前文档位置的路径的域名部分<br>③ path cookie路径,默认为当前文档位置的路径<br>④ expires cookie的过期时间,表示cookie何时应该被删除的时间戳,如果没有定义,cookie会在对话结束时过期<br>⑤ max-age cookie过期时间,单位是秒,优先级高于expires<br>⑥ httpOnly 告知浏览器不允许通过脚本document.cookie去更改这个值,同样这个值在document.cookie中也不可见<br>⑦ secure cookie只通过https协议传输</p>
+<p>cookie满足同源策略,cookie大小在4K左右,一般不同浏览器下存储个数也不一样, chrome-53/safari-无限制<br>cookie每次都参与服务器请求,一般都由服务端设置</p>
+<p>二. localStorage<br>localStore不参与服务端请求,一般大小在5M左右,只支持String格式存储(通常以Key/value的形式),需要手动进行删除<br>localStorage的方法:</p>
+<ul>
+<li>setItem(key, value) 新增一个项</li>
+<li>getItem(key) 读取一个项</li>
+<li>removeItem(key) 移除一个项</li>
+<li>clear() 移除所有项</li>
+</ul>
+<p>三. sessionStorage<br>sessionStorage不参与服务端请求,一般大小在5M左右,只支持String格式存储(以Key/value的形式),关闭浏览器sessionStorage就会被清除<br><em>打开多个相同的URL的Tabs页面,会创建各自的sessionStorage</em><br>sessionStroage的方法:</p>
+<ul>
+<li>setItem(key, value) 新增一个项</li>
+<li>getItem(key) 读取一个项</li>
+<li>removeItem(key) 移除一个项</li>
+<li>clear() 移除所有项</li>
+</ul>
+<p>总结:<br>1.生命周期<br>cookie设置过期时间, localStorage永久存储,除非手动清除, sessionStorage浏览器关闭的时候清除<br>2.数据存储大小<br>cookie-4K,浏览器不同,可设置的条数不同 localStorage/sessionStorage都是5M<br>3.与服务器通信<br>cookie每次都会携带在header中, localStorage/sessionStorage不参与服务端通信</p>
+]]></content>
       <tags>
-        <tag>hexo</tag>
+        <tag>js</tag>
       </tags>
   </entry>
 </search>
