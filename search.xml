@@ -1,62 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>flex容器分配问题</title>
-    <url>/2019/03/20/flex%E5%AE%B9%E5%99%A8%E5%88%86%E9%85%8D%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h3 id="flex让自使用布局变得比较简单-本文记录一下flex如何分配空间"><a href="#flex让自使用布局变得比较简单-本文记录一下flex如何分配空间" class="headerlink" title="flex让自使用布局变得比较简单,本文记录一下flex如何分配空间"></a>flex让自使用布局变得比较简单,本文记录一下flex如何分配空间</h3><p><strong><em>本文所有情况只适用与flex-basis不为auto的情况,flex-basis为auto的时候,情况比较复杂</em></strong></p>
+    <title>hexo+gitPages搭建简单博客</title>
+    <url>/2018/01/26/hexo-gitPages%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h3 id="基于hexo和gitPages搭建的博客"><a href="#基于hexo和gitPages搭建的博客" class="headerlink" title="基于hexo和gitPages搭建的博客"></a>基于hexo和gitPages搭建的博客</h3><p>只是用来记录一些工作心得，所以怎么简单怎么来</p>
 <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flex: 0 1 aut0;  &#x2F;&#x2F;默认值 等价于flex-grow,flex-shrink,flex-basis的简写,后两个参数可选</span><br></pre></td></tr></table></figure>
-<p>flex-grow 定义项目的放大比例,默认为0,如果存在空间,也不放大<br>flex-shrink 定义项目的缩小比例,默认为1,如果空间不足,则缩小项目，为0则不缩小项目<br>其值我们统称为权重</p>
-<h4 id="一-关于flex-grow的分配方式"><a href="#一-关于flex-grow的分配方式" class="headerlink" title="一.关于flex-grow的分配方式"></a>一.关于flex-grow的分配方式</h4><p><em>1.所有子项目flex-grow之和大于的1的情况</em><br>假定容器宽度为300px,其三个子项目宽度和flex-grow分别为 100px/1 150px/2 100px/3<br>此时剩余的可分配空间为 150px,那么每个子项目可得的空间如下</p>
-<ul>
-<li>150*1/6 = 25px</li>
-<li>150*2/6 = 50px</li>
-<li>150*3/6 = 75px</li>
-</ul>
-<p>也就是说剩余的150px的空间被三个子元素分成了6份(1+2+3/flex-grow相加之和),其子元素分别占有1/6,2/6,3/6<br>那么此时三个子元素的宽度为</p>
-<ul>
-<li>100 + 25 = 125px</li>
-<li>150 + 50 = 200px</li>
-<li>100 + 75 = 175px</li>
-</ul>
-<p><em>2.所有子项目flex-grow之和小于等于1的情况</em><br>假定容器宽度为300px,其三个子项目宽度和flex-grow分别为 100px/0.1 150px/0.2 100px/0.3<br>此时剩余的可分配空间为 150px,那么每个子项目可得的空间如下</p>
-<ul>
-<li>150*0.1/1 = 15px</li>
-<li>150*0.2/1 = 30px</li>
-<li>150*0.3/1 = 45px</li>
-</ul>
-<p>此时每个子元素的宽度为(容器仍有宽度未被分配,如果flex-grow相加等于1则空间正好分配完毕)</p>
-<ul>
-<li>100 + 15 = 115px</li>
-<li>150 + 30 = 180px</li>
-<li>100 + 45 = 145px</li>
-</ul>
-<h4 id="二-关于flex-shrink的分配方式"><a href="#二-关于flex-shrink的分配方式" class="headerlink" title="二.关于flex-shrink的分配方式"></a>二.关于flex-shrink的分配方式</h4><h5 id="子项目搜索除了受flex-shrink影响外-还会受到其自身宽度影响"><a href="#子项目搜索除了受flex-shrink影响外-还会受到其自身宽度影响" class="headerlink" title="子项目搜索除了受flex-shrink影响外,还会受到其自身宽度影响"></a>子项目搜索除了受flex-shrink影响外,还会受到其自身宽度影响</h5><p><em>1.所有子项目flex-shrink之和大于1的情况</em><br>假定容器宽度为500px,其三个子项目宽度和flex-shrink分别为 150px/1 200px/2 300px/3<br>此时溢出的宽度为 150 + 200 + 300 — 500 = 150px,那么每个子项目的收缩空间如下</p>
-<ul>
-<li>150 * 1 * 150/1450 = 15.5</li>
-<li>150 * 2 * 200/1450 = 41.4</li>
-<li>150 * 3 * 300/1450 = 93.1</li>
-</ul>
-<p>也就是说每个子元素的收缩空间为 溢出宽度 * flex-shrink * 子元素自身宽度 / 总权重(1 * 150 + 2 * 200 + 3 * 300)<br>总权重等于每个子元素flex-shrink * 自身宽度相加之和<br>那么此时的子元素的宽度为</p>
-<ul>
-<li>150 - 15.5 = 134.5</li>
-<li>200 - 41.4 = 158.6</li>
-<li>300 - 93.1 = 206.9</li>
-</ul>
-<p><em>1.所有子项目flex-shrink之和小于1的情况，唉,又麻烦了</em><br>假定容器宽度为500px,其三个子项目宽度和flex-shrink分别为 150px/0.1 200px/0.2 300px/0.3<br>此时溢出的宽度为 150 + 200 + 300 — 500 = 150px,那么每个子项目的收缩空间如下</p>
-<ul>
-<li>90 * 0.1 * 150/145 = 9.31</li>
-<li>90 * 0.2 * 200/145 = 24.83</li>
-<li>90 * 0.3 * 300/145 = 55.86<br>此时也就是说现在得收缩值不是溢出的150了,而是变成了150*(0.1+0.2+.03)/1 = 90,相当于只收缩了60%<br>所以此时的子元素宽度为</li>
-<li>150 - 9.31 = 140.69</li>
-<li>200 - 24.83 = 175.17</li>
-<li>300 - 55.86 = 244.14</li>
-</ul>
-<p><strong><em>所有数值保留位数不精准,所以跟浏览器实际宽度会有一点出入</em></strong></p>
-<h5 id="flex-grow-还受到max-width影响-flex-shrink-还受到min-width影响"><a href="#flex-grow-还受到max-width影响-flex-shrink-还受到min-width影响" class="headerlink" title="flex-grow 还受到max-width影响,flex-shrink 还受到min-width影响"></a>flex-grow 还受到max-width影响,flex-shrink 还受到min-width影响</h5><p><a href="https://zhuanlan.zhihu.com/p/24372279" target="_blank" rel="noopener">参考文章</a></p>
-]]></content>
+<h3 id="hexo-常用命令"><a href="#hexo-常用命令" class="headerlink" title="hexo 常用命令"></a>hexo 常用命令</h3><ol>
+<li>hexo generate (hexo g)  生成一个存放静态文件的文件夹</li>
+<li>hexo server (hexo s)  启动本地服务器预览博客内容</li>
+<li>hexo deploy  当前目录文件下生成.deploy_git文件夹,并且把生成的静态文件上传到github上,需提前写好_config.yml</li>
+<li>hexo new post 文章名 在根目录下的source/_posts下生成一个md文件,编辑此文件写文章</li>
+<li>hexo clean  清除缓存文件 db.json 和 生成的静态文件夹 public</li>
+</ol>
+<hr>
+<h3 id="常用组合命令"><a href="#常用组合命令" class="headerlink" title="常用组合命令"></a>常用组合命令</h3><p>hexo clean + hexo g + hexo s 本地预览博客文章<br>hexo clean + hexo g + hexo d 发布到github上<br>*hexo g/hexo d合并时候简写命令为 hexo g -d</p>
+<hr>
+<h3 id="hexo遇到的问题"><a href="#hexo遇到的问题" class="headerlink" title="hexo遇到的问题"></a>hexo遇到的问题</h3><p>1.全局安装后提示hexo不是命令提示符，解决办法:<br>①用git Bash 安装即可<br>②将安装包的位置添加到环境变量中</p>
+<p>2.hexo d 提示 error deployer not found:github, 解决办法:<br>安装hexo-deployer-git // npm install hexo-deployer-git –save</p>
+<h2 id="hexo使用了next主题"><a href="#hexo使用了next主题" class="headerlink" title="hexo使用了next主题"></a>hexo使用了next主题</h2><p>1.新增tags标签页<br>① hexo new page “tags”  新增一个tags页面,此时在source下生成一个tags文件夹,里面包含一个index.md<br>② 编辑刚才生成的这个index.md页面 新增 type: ‘tags’<br>③ 进入主题配置文件(_config.yml) 新增tags</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F;|| home</span><br><span class="line">  tags: &#x2F;tags&#x2F;|| tags</span><br></pre></td></tr></table></figure>
+<hr>
+<p>2.新增搜索功能<br>① hexo根目录下安装 npm install hexo-generator-searchdb –save<br>② 修改配置文件(theme/next/_config.yml)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">  enable: true #默认为false</span><br></pre></td></tr></table></figure>
+<p>③ 配置文件中新增</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post #搜索范围 post文章</span><br><span class="line">  format: html</span><br><span class="line">  limit: 1000 #搜索限制条数</span><br></pre></td></tr></table></figure>
+<h3 id="折腾了一下next点击日志的时候跳转错误"><a href="#折腾了一下next点击日志的时候跳转错误" class="headerlink" title="折腾了一下next点击日志的时候跳转错误"></a>折腾了一下next点击日志的时候跳转错误</h3><p>版本更新一下后 点击日志突然报错 Cannot GET /archives/%7C%7C%20archive/<br>heox pagejson “version”: “5.1.4”<br>解决办法<br>在next主题下 sidebar.swig下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives).split(&#39;||&#39;)[0] | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>改为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives.split(&#39;||&#39;)[0]) | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>]]></content>
       <tags>
-        <tag>css</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -109,38 +82,6 @@
 ]]></content>
       <tags>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo+gitPages搭建简单博客</title>
-    <url>/2018/01/26/hexo-gitPages%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h3 id="基于hexo和gitPages搭建的博客"><a href="#基于hexo和gitPages搭建的博客" class="headerlink" title="基于hexo和gitPages搭建的博客"></a>基于hexo和gitPages搭建的博客</h3><p>只是用来记录一些工作心得，所以怎么简单怎么来</p>
-<a id="more"></a>
-<h3 id="hexo-常用命令"><a href="#hexo-常用命令" class="headerlink" title="hexo 常用命令"></a>hexo 常用命令</h3><ol>
-<li>hexo generate (hexo g)  生成一个存放静态文件的文件夹</li>
-<li>hexo server (hexo s)  启动本地服务器预览博客内容</li>
-<li>hexo deploy  当前目录文件下生成.deploy_git文件夹,并且把生成的静态文件上传到github上,需提前写好_config.yml</li>
-<li>hexo new post 文章名 在根目录下的source/_posts下生成一个md文件,编辑此文件写文章</li>
-<li>hexo clean  清除缓存文件 db.json 和 生成的静态文件夹 public</li>
-</ol>
-<hr>
-<h3 id="常用组合命令"><a href="#常用组合命令" class="headerlink" title="常用组合命令"></a>常用组合命令</h3><p>hexo clean + hexo g + hexo s 本地预览博客文章<br>hexo clean + hexo g + hexo d 发布到github上<br>*hexo g/hexo d合并时候简写命令为 hexo g -d</p>
-<hr>
-<h3 id="hexo遇到的问题"><a href="#hexo遇到的问题" class="headerlink" title="hexo遇到的问题"></a>hexo遇到的问题</h3><p>1.全局安装后提示hexo不是命令提示符，解决办法:<br>①用git Bash 安装即可<br>②将安装包的位置添加到环境变量中</p>
-<p>2.hexo d 提示 error deployer not found:github, 解决办法:<br>安装hexo-deployer-git // npm install hexo-deployer-git –save</p>
-<h2 id="hexo使用了next主题"><a href="#hexo使用了next主题" class="headerlink" title="hexo使用了next主题"></a>hexo使用了next主题</h2><p>1.新增tags标签页<br>① hexo new page “tags”  新增一个tags页面,此时在source下生成一个tags文件夹,里面包含一个index.md<br>② 编辑刚才生成的这个index.md页面 新增 type: ‘tags’<br>③ 进入主题配置文件(_config.yml) 新增tags</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F;|| home</span><br><span class="line">  tags: &#x2F;tags&#x2F;|| tags</span><br></pre></td></tr></table></figure>
-<hr>
-<p>2.新增搜索功能<br>① hexo根目录下安装 npm install hexo-generator-searchdb –save<br>② 修改配置文件(theme/next/_config.yml)</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">  enable: true #默认为false</span><br></pre></td></tr></table></figure>
-<p>③ 配置文件中新增</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post #搜索范围 post文章</span><br><span class="line">  format: html</span><br><span class="line">  limit: 1000 #搜索限制条数</span><br></pre></td></tr></table></figure>
-<h3 id="折腾了一下next点击日志的时候跳转错误"><a href="#折腾了一下next点击日志的时候跳转错误" class="headerlink" title="折腾了一下next点击日志的时候跳转错误"></a>折腾了一下next点击日志的时候跳转错误</h3><p>版本更新一下后 点击日志突然报错 Cannot GET /archives/%7C%7C%20archive/<br>heox pagejson “version”: “5.1.4”<br>解决办法<br>在next主题下 sidebar.swig下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives).split(&#39;||&#39;)[0] | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>
-<p>改为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives.split(&#39;||&#39;)[0]) | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>]]></content>
-      <tags>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -211,11 +152,20 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Set</p>
 <ul>
 <li>成员唯一,可以是任何类型,无序</li>
-<li>只有值没有键,可遍历<br>WeakSet</li>
+<li>只有值没有键,可遍历</li>
+</ul>
+<p>WeakSet</p>
+<ul>
 <li>成员只能是对象</li>
-<li>成员都是弱引用,可被垃圾机制回收,不可遍历<br>Map</li>
+<li>成员都是弱引用,可被垃圾机制回收,不可遍历</li>
+</ul>
+<p>Map</p>
+<ul>
 <li>按插入顺序存放键值对,键可以是任何类型</li>
-<li>可遍历<br>WebkMap</li>
+<li>可遍历</li>
+</ul>
+<p>WebkMap</p>
+<ul>
 <li>只能对象做为键(null除外),不可遍历</li>
 <li>键被垃圾回收后,键无效</li>
 </ul>
@@ -248,6 +198,110 @@
 </ul>
 <p>总结:<br>1.生命周期<br>cookie设置过期时间, localStorage永久存储,除非手动清除, sessionStorage浏览器关闭的时候清除<br>2.数据存储大小<br>cookie-4K,浏览器不同,可设置的条数不同 localStorage/sessionStorage都是5M<br>3.与服务器通信<br>cookie每次都会携带在header中, localStorage/sessionStorage不参与服务端通信</p>
 ]]></content>
+      <tags>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>flex容器分配问题</title>
+    <url>/2019/03/20/flex%E5%AE%B9%E5%99%A8%E5%88%86%E9%85%8D%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h3 id="flex让自使用布局变得比较简单-本文记录一下flex如何分配空间"><a href="#flex让自使用布局变得比较简单-本文记录一下flex如何分配空间" class="headerlink" title="flex让自使用布局变得比较简单,本文记录一下flex如何分配空间"></a>flex让自使用布局变得比较简单,本文记录一下flex如何分配空间</h3><p><strong><em>本文所有情况只适用与flex-basis不为auto的情况,flex-basis为auto的时候,情况比较复杂</em></strong></p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flex: 0 1 aut0;  &#x2F;&#x2F;默认值 等价于flex-grow,flex-shrink,flex-basis的简写,后两个参数可选</span><br></pre></td></tr></table></figure>
+<p>flex-grow 定义项目的放大比例,默认为0,如果存在空间,也不放大<br>flex-shrink 定义项目的缩小比例,默认为1,如果空间不足,则缩小项目，为0则不缩小项目<br>其值我们统称为权重</p>
+<h4 id="一-关于flex-grow的分配方式"><a href="#一-关于flex-grow的分配方式" class="headerlink" title="一.关于flex-grow的分配方式"></a>一.关于flex-grow的分配方式</h4><p><em>1.所有子项目flex-grow之和大于的1的情况</em><br>假定容器宽度为300px,其三个子项目宽度和flex-grow分别为 100px/1 150px/2 100px/3<br>此时剩余的可分配空间为 150px,那么每个子项目可得的空间如下</p>
+<ul>
+<li>150*1/6 = 25px</li>
+<li>150*2/6 = 50px</li>
+<li>150*3/6 = 75px</li>
+</ul>
+<p>也就是说剩余的150px的空间被三个子元素分成了6份(1+2+3/flex-grow相加之和),其子元素分别占有1/6,2/6,3/6<br>那么此时三个子元素的宽度为</p>
+<ul>
+<li>100 + 25 = 125px</li>
+<li>150 + 50 = 200px</li>
+<li>100 + 75 = 175px</li>
+</ul>
+<p><em>2.所有子项目flex-grow之和小于等于1的情况</em><br>假定容器宽度为300px,其三个子项目宽度和flex-grow分别为 100px/0.1 150px/0.2 100px/0.3<br>此时剩余的可分配空间为 150px,那么每个子项目可得的空间如下</p>
+<ul>
+<li>150*0.1/1 = 15px</li>
+<li>150*0.2/1 = 30px</li>
+<li>150*0.3/1 = 45px</li>
+</ul>
+<p>此时每个子元素的宽度为(容器仍有宽度未被分配,如果flex-grow相加等于1则空间正好分配完毕)</p>
+<ul>
+<li>100 + 15 = 115px</li>
+<li>150 + 30 = 180px</li>
+<li>100 + 45 = 145px</li>
+</ul>
+<h4 id="二-关于flex-shrink的分配方式"><a href="#二-关于flex-shrink的分配方式" class="headerlink" title="二.关于flex-shrink的分配方式"></a>二.关于flex-shrink的分配方式</h4><h5 id="子项目搜索除了受flex-shrink影响外-还会受到其自身宽度影响"><a href="#子项目搜索除了受flex-shrink影响外-还会受到其自身宽度影响" class="headerlink" title="子项目搜索除了受flex-shrink影响外,还会受到其自身宽度影响"></a>子项目搜索除了受flex-shrink影响外,还会受到其自身宽度影响</h5><p><em>1.所有子项目flex-shrink之和大于1的情况</em><br>假定容器宽度为500px,其三个子项目宽度和flex-shrink分别为 150px/1 200px/2 300px/3<br>此时溢出的宽度为 150 + 200 + 300 — 500 = 150px,那么每个子项目的收缩空间如下</p>
+<ul>
+<li>150 * 1 * 150/1450 = 15.5</li>
+<li>150 * 2 * 200/1450 = 41.4</li>
+<li>150 * 3 * 300/1450 = 93.1</li>
+</ul>
+<p>也就是说每个子元素的收缩空间为 溢出宽度 * flex-shrink * 子元素自身宽度 / 总权重(1 * 150 + 2 * 200 + 3 * 300)<br>总权重等于每个子元素flex-shrink * 自身宽度相加之和<br>那么此时的子元素的宽度为</p>
+<ul>
+<li>150 - 15.5 = 134.5</li>
+<li>200 - 41.4 = 158.6</li>
+<li>300 - 93.1 = 206.9</li>
+</ul>
+<p><em>1.所有子项目flex-shrink之和小于1的情况，唉,又麻烦了</em><br>假定容器宽度为500px,其三个子项目宽度和flex-shrink分别为 150px/0.1 200px/0.2 300px/0.3<br>此时溢出的宽度为 150 + 200 + 300 — 500 = 150px,那么每个子项目的收缩空间如下</p>
+<ul>
+<li>90 * 0.1 * 150/145 = 9.31</li>
+<li>90 * 0.2 * 200/145 = 24.83</li>
+<li>90 * 0.3 * 300/145 = 55.86<br>此时也就是说现在得收缩值不是溢出的150了,而是变成了150*(0.1+0.2+.03)/1 = 90,相当于只收缩了60%<br>所以此时的子元素宽度为</li>
+<li>150 - 9.31 = 140.69</li>
+<li>200 - 24.83 = 175.17</li>
+<li>300 - 55.86 = 244.14</li>
+</ul>
+<p><strong><em>所有数值保留位数不精准,所以跟浏览器实际宽度会有一点出入</em></strong></p>
+<h5 id="flex-grow-还受到max-width影响-flex-shrink-还受到min-width影响"><a href="#flex-grow-还受到max-width影响-flex-shrink-还受到min-width影响" class="headerlink" title="flex-grow 还受到max-width影响,flex-shrink 还受到min-width影响"></a>flex-grow 还受到max-width影响,flex-shrink 还受到min-width影响</h5><p><a href="https://zhuanlan.zhihu.com/p/24372279" target="_blank" rel="noopener">参考文章</a></p>
+]]></content>
+      <tags>
+        <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>改变this指向的三剑客</title>
+    <url>/2018/06/04/%E6%94%B9%E5%8F%98this%E6%8C%87%E5%90%91%E7%9A%84%E4%B8%89%E5%89%91%E5%AE%A2/</url>
+    <content><![CDATA[<p>记录一下能改变this指向的三剑客,他们就是call() / apply() / bind()<br>call()/apply()作用一致,只是call接受的是一个参数列表,apply接受一个包含多个参数的数组,bind则创建一个新的函数</p>
+<a id="more"></a>
+<p>一. call()方法 使用一个指定的 this 值和单独给出的一个或多个参数来调用一个<em>函数</em></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">funtion.call(thisArg, arg1, arg2, ...)</span><br></pre></td></tr></table></figure>
+<p>thisArg可选参数, 在function运行时使用的this值. 非严格模式下,指定null或undefined则自动替换成全局对象, 如果不指定thisArg,this的值会绑定为全局对象,严格模式下this的值是undefined</p>
+<p>举个例子</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var apple &#x3D; &#123;</span><br><span class="line">  color: &#39;red&#39;,</span><br><span class="line">  say: function() &#123;</span><br><span class="line">    return &#96;color is $&#123;this.color&#125;&#96;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">var banana &#x3D; &#123;</span><br><span class="line">  color: &#39;yellow&#39;</span><br><span class="line">&#125;</span><br><span class="line">apple.say.call(banana) &#x2F;&#x2F; color is yellow</span><br></pre></td></tr></table></figure>
+<p>banana没有say方法,我们可以去向apple借用一下,再比如,取出数组中的最大值,我们可以用一个简单的方法,借用Math.max方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var numbers &#x3D; [5,8,90]</span><br><span class="line">Math.max.call(numbers,...numbers) &#x2F;&#x2F; 90</span><br></pre></td></tr></table></figure>
+<p>其实说白了, call他自己做了三件事</p>
+<ol>
+<li>将函数设置为传入对象的属性</li>
+<li>然后执行这个函数</li>
+<li>执行完成后,删除这个新增属性</li>
+</ol>
+<p>那我们就可以实现一个自己的call函数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Function.prototype.mycall &#x3D; function(context&#x3D;window)&#123;</span><br><span class="line">  context.fn &#x3D; this &#x2F;&#x2F;将函数设置为传入对象的属性</span><br><span class="line">  let args &#x3D; [...arguments].slice(1) &#x2F;&#x2F;抽离出传入的参数</span><br><span class="line">  let result &#x3D; context.fn(...args) &#x2F;&#x2F; 执行这个函数</span><br><span class="line">  delete context.fn &#x2F;&#x2F; 删除这个属性</span><br><span class="line">  return result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ES5版相对复杂</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Function.prototype.mycall &#x3D; function(context)&#123;</span><br><span class="line">  context &#x3D; context || window</span><br><span class="line">  var args &#x3D; []</span><br><span class="line">  for(var i&#x3D;0; i&lt;arguments.length; i++)&#123;</span><br><span class="line">    args.push(&#39;arguments[&#39; + i + &#39;]&#39;)</span><br><span class="line">  &#125;</span><br><span class="line">  var argstr &#x3D; args.join(&#39;,&#39;)</span><br><span class="line">  context.fn &#x3D; this</span><br><span class="line">  &#x2F;&#x2F; ES5 由于无法通过解构的形式传入参数，只能通过字符串拼接然后再通过eval来执行</span><br><span class="line">  var res &#x3D;  eval(&#39;context.fn(&#39; + argstr + &#39;)&#39;)</span><br><span class="line">  delete context.fn</span><br><span class="line">  return res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>eval()函数可计算某个字符串,并执行其中的的JavaScript代码<strong>不建议使用</strong><br><em>需要注意的点</em></p>
+<ul>
+<li>如果string参数不是原始字符串,那么该方法将不作任何改变地返回</li>
+<li>试图覆盖eval属性或把eval()方法赋予另一个属性,并通过该属性调用它,则抛出一个EvalError异常</li>
+<li>参数中没有合法的表达式和语句,则抛出SyntaxError异常</li>
+<li>传递给eval()的Javascript代码生成了一个异常,eval()将把该异常传递给调用者</li>
+</ul>
+<p>二、apply()方法与call()功能一致<br>写一个自己的apply方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Function.prototype.myapply &#x3D; function(context &#x3D; window) &#123;</span><br><span class="line">  context.fn &#x3D; this</span><br><span class="line">  let result;</span><br><span class="line">  if(arguments[1]) &#123; &#x2F;&#x2F; 判断是否有第二个参数</span><br><span class="line">    result &#x3D; context.fn(...arguments[1])</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    result &#x3D; context.fn()</span><br><span class="line">  &#125;</span><br><span class="line">  delete context.fn</span><br><span class="line">  return result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ES5版</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Function.prototype.myapply &#x3D; function()&#123;</span><br><span class="line">  context &#x3D; context || window; </span><br><span class="line">  context.fn &#x3D; this;</span><br><span class="line">  var result;</span><br><span class="line">  &#x2F;&#x2F; 判断是否存在第二个参数</span><br><span class="line">  if (arguments[1]) &#123;</span><br><span class="line">    result &#x3D; context.fn();</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    var args &#x3D; [];</span><br><span class="line">    for (var i &#x3D; 0, len &#x3D; arguments[1].length; i &lt; len; i++) &#123;</span><br><span class="line">      args.push(&#39;arguments[1][&#39; + i + &#39;]&#39;);</span><br><span class="line">    &#125;</span><br><span class="line">    result &#x3D; eval(&#39;context.fn(&#39; + args + &#39;)&#39;);</span><br><span class="line">  &#125;</span><br><span class="line">  delete context.fn</span><br><span class="line">  return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>三、bind()方法创建一个新的函数,在bind()被调用时,这个新函数的this被指定为bind()的第一个参数,而其余参数将作为新函数的参数,供调用时使用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function.bind(thisArg, arg1, arg2)</span><br></pre></td></tr></table></figure>
+<p>thisArg 调用绑定函数时作为this参数传递给目标函数的值;如果使用new运算符构造绑定函数,则忽略该值<br>如果bind函数的参数列表为空,或者thisArg是null或undefined,执行作用域的this将被视为新函数的thisArg</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var number &#x3D; 9</span><br><span class="line">var obj &#x3D; &#123;</span><br><span class="line">  number: 8,</span><br><span class="line">  getNumber: function()&#123;</span><br><span class="line">    return &#96;number:$&#123;this.number&#125;&#96;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.getNumber() &#x2F;&#x2F; number:8</span><br><span class="line">var newGet &#x3D; obj.getNumber</span><br><span class="line">newGet() &#x2F;&#x2F;number:9  因为函数是在全局作用域中调用的</span><br><span class="line">var bindGet &#x3D; newGet.bind(obj)</span><br><span class="line">bindGet() &#x2F;&#x2F;number:8 通过bind改变this的值</span><br><span class="line">var emptyBind &#x3D; newGet.bind() </span><br><span class="line">emptyBind() &#x2F;&#x2F;number:9 因为bind参数列表为空,emptyBind在全局作用域中调用,所以this指向window thisArg为null和undefined时同理</span><br></pre></td></tr></table></figure>
+<p>bind另一个用法是可以使一个函数拥有预设的初始参数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function list() &#123;</span><br><span class="line">  return Array.prototype.slice.call(arguments)</span><br><span class="line">&#125;</span><br><span class="line">var newlist &#x3D; list.bind(null,37)</span><br><span class="line">newlist(1,2,3) &#x2F;&#x2F; [37,1,2,3]</span><br></pre></td></tr></table></figure>
+<p>手写一个bind方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Function.prototype.mybind &#x3D; function(context)&#123;</span><br><span class="line">  let that &#x3D; this;</span><br><span class="line">  &#x2F;&#x2F; mybind绑定的时候传入的第二个参数</span><br><span class="line">  let args1 &#x3D; Array.prototype.slice.call(arguments,1);</span><br><span class="line">  let bindFn &#x3D; function()&#123;</span><br><span class="line">    let args2 &#x3D; Array.prototype.slice.call(arguments);</span><br><span class="line">    &#x2F;&#x2F; 判断一下是否用new创建了一个新实例</span><br><span class="line">    return that.apply(this instanceof bindFn?this:context,args1.concat(args2)); </span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; 使用空函数继承原型链</span><br><span class="line">  let Fn &#x3D; function()&#123;&#125;;</span><br><span class="line">  Fn.prototype &#x3D; this.prototype;</span><br><span class="line">  bindFn.prototype &#x3D; new Fn();</span><br><span class="line">  return bindFn;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <tags>
         <tag>js</tag>
       </tags>
