@@ -1,35 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>hexo+gitPages搭建简单博客</title>
-    <url>/2018/01/26/hexo-gitPages%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h3 id="基于hexo和gitPages搭建的博客"><a href="#基于hexo和gitPages搭建的博客" class="headerlink" title="基于hexo和gitPages搭建的博客"></a>基于hexo和gitPages搭建的博客</h3><p>只是用来记录一些工作心得，所以怎么简单怎么来</p>
+    <title>AMD/CMD/CommonJs/ES6对比</title>
+    <url>/2018/03/08/AMD-CMD-CommonJs-ES6%E5%AF%B9%E6%AF%94/</url>
+    <content><![CDATA[<p>AMD,CMD,CommonJs,ES6均是javascript模块化的规范</p>
 <a id="more"></a>
-<h3 id="hexo-常用命令"><a href="#hexo-常用命令" class="headerlink" title="hexo 常用命令"></a>hexo 常用命令</h3><ol>
-<li>hexo generate (hexo g)  生成一个存放静态文件的文件夹</li>
-<li>hexo server (hexo s)  启动本地服务器预览博客内容</li>
-<li>hexo deploy  当前目录文件下生成.deploy_git文件夹,并且把生成的静态文件上传到github上,需提前写好_config.yml</li>
-<li>hexo new post 文章名 在根目录下的source/_posts下生成一个md文件,编辑此文件写文章</li>
-<li>hexo clean  清除缓存文件 db.json 和 生成的静态文件夹 public</li>
-</ol>
-<hr>
-<h3 id="常用组合命令"><a href="#常用组合命令" class="headerlink" title="常用组合命令"></a>常用组合命令</h3><p>hexo clean + hexo g + hexo s 本地预览博客文章<br>hexo clean + hexo g + hexo d 发布到github上<br>*hexo g/hexo d合并时候简写命令为 hexo g -d</p>
-<hr>
-<h3 id="hexo遇到的问题"><a href="#hexo遇到的问题" class="headerlink" title="hexo遇到的问题"></a>hexo遇到的问题</h3><p>1.全局安装后提示hexo不是命令提示符，解决办法:<br>①用git Bash 安装即可<br>②将安装包的位置添加到环境变量中</p>
-<p>2.hexo d 提示 error deployer not found:github, 解决办法:<br>安装hexo-deployer-git // npm install hexo-deployer-git –save</p>
-<h2 id="hexo使用了next主题"><a href="#hexo使用了next主题" class="headerlink" title="hexo使用了next主题"></a>hexo使用了next主题</h2><p>1.新增tags标签页<br>① hexo new page “tags”  新增一个tags页面,此时在source下生成一个tags文件夹,里面包含一个index.md<br>② 编辑刚才生成的这个index.md页面 新增 type: ‘tags’<br>③ 进入主题配置文件(_config.yml) 新增tags</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F;|| home</span><br><span class="line">  tags: &#x2F;tags&#x2F;|| tags</span><br></pre></td></tr></table></figure>
-<hr>
-<p>2.新增搜索功能<br>① hexo根目录下安装 npm install hexo-generator-searchdb –save<br>② 修改配置文件(theme/next/_config.yml)</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">  enable: true #默认为false</span><br></pre></td></tr></table></figure>
-<p>③ 配置文件中新增</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post #搜索范围 post文章</span><br><span class="line">  format: html</span><br><span class="line">  limit: 1000 #搜索限制条数</span><br></pre></td></tr></table></figure>
-<h3 id="折腾了一下next点击日志的时候跳转错误"><a href="#折腾了一下next点击日志的时候跳转错误" class="headerlink" title="折腾了一下next点击日志的时候跳转错误"></a>折腾了一下next点击日志的时候跳转错误</h3><p>版本更新一下后 点击日志突然报错 Cannot GET /archives/%7C%7C%20archive/<br>heox pagejson “version”: “5.1.4”<br>解决办法<br>在next主题下 sidebar.swig下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives).split(&#39;||&#39;)[0] | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>
-<p>改为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives.split(&#39;||&#39;)[0]) | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>]]></content>
+<p>一. CommonJs规范<br>CommonJs是同步加载模块,在浏览器端不适用,主要用于服务端,如NodeJs<br>CommonJs暴露了两个对外API,用来定义模块</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">require() &#x2F;&#x2F; 同步引入模块</span><br><span class="line">module.exports &#x2F; exports &#x2F;&#x2F; 导出需要暴露的接口</span><br></pre></td></tr></table></figure>
+<p>二. AMD规范<br>AMD规范用于异步加载模块,允许指定回调函数,用于浏览器端,如require.js</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">require([module], callback) &#x2F;&#x2F; 引入模块</span><br><span class="line">define(id, [depends], callback) &#x2F;&#x2F; 定义模块</span><br></pre></td></tr></table></figure>
+<p>AMD使用时我们需要提前加载所有依赖<br>三. CMD规范<br>CMD和AMD规范类似,CMD推荐依赖就近,按需加载,用于浏览器端,如sea.js<br>四. ES6规范<br>ES6用export 导出模块, 用import导入模块<br>ES6模块自动采用严格模式,无需定义”use strict”</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export default function add() &#123;&#125;  &#x2F;&#x2F; 为模块指定一个默认输出, 一个模块下只能存在一个 export default</span><br><span class="line">import [anyname] from &#39;&#39; &#x2F;&#x2F; import导出带有default的模块时, 名字可以不对应, 不用加&#123;&#125;</span><br><span class="line"></span><br><span class="line">function add() &#123;&#125;</span><br><span class="line">export &#123;</span><br><span class="line">  add as up &#x2F;&#x2F; export可以用as关键字重命名add方法的对外接口名</span><br><span class="line">&#125;</span><br><span class="line">import &#123; up &#125; from &#39;&#39; &#x2F;&#x2F;此时导出的up其实就是定义的add方法</span><br><span class="line">import &#123; up as up_new &#125; from &#39;&#39; &#x2F;&#x2F;import也可以用as关键字重命名方法 此时up_new 就是定义的的add()方法</span><br></pre></td></tr></table></figure>]]></content>
       <tags>
-        <tag>hexo</tag>
+        <tag>js</tag>
       </tags>
   </entry>
   <entry>
@@ -203,6 +186,64 @@
       </tags>
   </entry>
   <entry>
+    <title>js跨域</title>
+    <url>/2019/06/08/js%E8%B7%A8%E5%9F%9F/</url>
+    <content><![CDATA[<p>说起跨域,就要先从浏览器的同源策略说起,所谓同源策略就是指协议,域名,端口号都要相同,一项不同就产生了跨域问题。<br>同源策略作用大体分为两类: (1)限制接口 (2)限制查询DOM</p>
+<a id="more"></a>
+<p>解决跨域问题,常见的有已下几种方法:<br>一、jsonp<br>原理: 同源策略中,html中通过相应标签从不同域名中加载静态资源文件是被浏览器允许的,所以script/img/iframe标签是例外,不受同源策略限制</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let script &#x3D; document.createElement(&#39;script&#39;);</span><br><span class="line">script.src &#x3D; &#39;***?id&#x3D;3&amp;callback&#x3D;callback&#39;;</span><br><span class="line">document.body.appendChild(script);</span><br><span class="line"></span><br><span class="line">function callback(res) &#123; console.log(res) &#125;</span><br></pre></td></tr></table></figure>
+<p>缺点: 只支持GET请求<br>二、CORS(Cross-origin resource sharing) 跨域资源共享<br>CORS分为简单请求和非简单请求:<br>同时满足以下两个条件,就属于简单请求:<br>1.请求方法是下列之一: HEAD,GET,POST<br>2.HTTP头部信息不超过以下几种字段:<br>(1) Accept (2) Accept-Language (3) Content-Language (4) Last-Event-ID<br>(5) Content-Type 只限于application/x-www-form-urlencoded、multipart/form-data、text/plain</p>
+<ul>
+<li>简单请求会自动在请求头中加入Origin字段</li>
+<li>非简单请求会先发起一次预检请求</li>
+</ul>
+<p><a href="http://www.ruanyifeng.com/blog/2016/04/cors.html" target="_blank" rel="noopener">cors参考资料</a><br>三、Nginx代理</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 0000;</span><br><span class="line">  server_name localhost</span><br><span class="line">  location ^~ &#x2F;api &#123;</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;******</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 凡是localhost:0000&#x2F;api的所有接口都转发到http:&#x2F;&#x2F;******上处理</span><br></pre></td></tr></table></figure>
+
+<p>四、document.domain + iframe<br>原理:通过设置document.domain为统一主域名</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 现有abc.test.com下的a.html和xyz.test.com下的x.html</span><br><span class="line">&#x2F;&#x2F; a.html</span><br><span class="line">&lt;iframe src&#x3D;&quot;xyz.test.com&#x2F;x.html&quot;&gt;&lt;&#x2F;iframe&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">document.domain &#x3D; &#39;test.com&#39;</span><br><span class="line">iframe.onload &#x3D; function()&#123; &#x2F;&#x2F;这里就可以查询x.html页面DOM &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line">&#x2F;&#x2F;x.html</span><br><span class="line">&lt;script&gt;</span><br><span class="line">document.domain &#x3D; &#39;test.com&#39;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<p>缺点:只支持主域名相同的<br>五、postMessage,H5新增API,可以安全地实现跨源通信</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">otherWindow.postMessage(message, targetOrigin, [transfer])</span><br></pre></td></tr></table></figure>
+<p>otherWindow 其他窗口的引用,比如iframe的contentWindow属性、执行window.open返回的窗口对象、或者是命名过或数值索引的window.frames<br>message 将要发送到其他 window的数据<br>targetOrigin 通过窗口的origin属性来指定哪些窗口能接收到消息事件,其值可以是字符串”*”（表示无限制）或者一个URI<br>transfer(可选) 是一串和message同时传递的Transferable对象.这些对象的所有权将被转移给消息的接收方,而发送一方将不再保有所有权</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; http:&#x2F;&#x2F;a.test.com</span><br><span class="line">&lt;iframe name&#x3D;&quot;toiframe&quot; src&#x3D;&quot;http:&#x2F;&#x2F;b.example.com&quot;&gt;&lt;&#x2F;iframe&gt;</span><br><span class="line">&#x2F;&#x2F; 用于发送信息</span><br><span class="line">window.frames[&#39;toiframe&#39;].postMessage(&#39;from a.test.com&#39;,&#39;http:&#x2F;&#x2F;b.example.com&#39;)</span><br><span class="line">&#x2F;&#x2F; 用于接收信息</span><br><span class="line">window.addEventListener(&#39;message&#39;, (e) &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; 检验消息来源</span><br><span class="line">  if(e.origin &#x3D;&#x3D;&#x3D; &#39;http:&#x2F;&#x2F;a.test.com&#39;)&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; http:&#x2F;&#x2F;b.example.com</span><br><span class="line">window.addEventListener(&#39;message&#39;, (e) &#x3D;&gt; &#123;</span><br><span class="line">  if(e.origin &#x3D;&#x3D;&#x3D; &#39;http:&#x2F;&#x2F;a.test.com&#39;)&#123;</span><br><span class="line">    &#x2F;&#x2F; 接收消息并回应</span><br><span class="line">    e.source.postMessage(&#39;from b.example.com answer&#39;, e.origin)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo+gitPages搭建简单博客</title>
+    <url>/2018/01/26/hexo-gitPages%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h3 id="基于hexo和gitPages搭建的博客"><a href="#基于hexo和gitPages搭建的博客" class="headerlink" title="基于hexo和gitPages搭建的博客"></a>基于hexo和gitPages搭建的博客</h3><p>只是用来记录一些工作心得，所以怎么简单怎么来</p>
+<a id="more"></a>
+<h3 id="hexo-常用命令"><a href="#hexo-常用命令" class="headerlink" title="hexo 常用命令"></a>hexo 常用命令</h3><ol>
+<li>hexo generate (hexo g)  生成一个存放静态文件的文件夹</li>
+<li>hexo server (hexo s)  启动本地服务器预览博客内容</li>
+<li>hexo deploy  当前目录文件下生成.deploy_git文件夹,并且把生成的静态文件上传到github上,需提前写好_config.yml</li>
+<li>hexo new post 文章名 在根目录下的source/_posts下生成一个md文件,编辑此文件写文章</li>
+<li>hexo clean  清除缓存文件 db.json 和 生成的静态文件夹 public</li>
+</ol>
+<hr>
+<h3 id="常用组合命令"><a href="#常用组合命令" class="headerlink" title="常用组合命令"></a>常用组合命令</h3><p>hexo clean + hexo g + hexo s 本地预览博客文章<br>hexo clean + hexo g + hexo d 发布到github上<br>*hexo g/hexo d合并时候简写命令为 hexo g -d</p>
+<hr>
+<h3 id="hexo遇到的问题"><a href="#hexo遇到的问题" class="headerlink" title="hexo遇到的问题"></a>hexo遇到的问题</h3><p>1.全局安装后提示hexo不是命令提示符，解决办法:<br>①用git Bash 安装即可<br>②将安装包的位置添加到环境变量中</p>
+<p>2.hexo d 提示 error deployer not found:github, 解决办法:<br>安装hexo-deployer-git // npm install hexo-deployer-git –save</p>
+<h2 id="hexo使用了next主题"><a href="#hexo使用了next主题" class="headerlink" title="hexo使用了next主题"></a>hexo使用了next主题</h2><p>1.新增tags标签页<br>① hexo new page “tags”  新增一个tags页面,此时在source下生成一个tags文件夹,里面包含一个index.md<br>② 编辑刚才生成的这个index.md页面 新增 type: ‘tags’<br>③ 进入主题配置文件(_config.yml) 新增tags</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F;|| home</span><br><span class="line">  tags: &#x2F;tags&#x2F;|| tags</span><br></pre></td></tr></table></figure>
+<hr>
+<p>2.新增搜索功能<br>① hexo根目录下安装 npm install hexo-generator-searchdb –save<br>② 修改配置文件(theme/next/_config.yml)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">  enable: true #默认为false</span><br></pre></td></tr></table></figure>
+<p>③ 配置文件中新增</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post #搜索范围 post文章</span><br><span class="line">  format: html</span><br><span class="line">  limit: 1000 #搜索限制条数</span><br></pre></td></tr></table></figure>
+<h3 id="折腾了一下next点击日志的时候跳转错误"><a href="#折腾了一下next点击日志的时候跳转错误" class="headerlink" title="折腾了一下next点击日志的时候跳转错误"></a>折腾了一下next点击日志的时候跳转错误</h3><p>版本更新一下后 点击日志突然报错 Cannot GET /archives/%7C%7C%20archive/<br>heox pagejson “version”: “5.1.4”<br>解决办法<br>在next主题下 sidebar.swig下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives).split(&#39;||&#39;)[0] | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>改为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives.split(&#39;||&#39;)[0]) | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>flex容器分配问题</title>
     <url>/2019/03/20/flex%E5%AE%B9%E5%99%A8%E5%88%86%E9%85%8D%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h3 id="flex让自使用布局变得比较简单-本文记录一下flex如何分配空间"><a href="#flex让自使用布局变得比较简单-本文记录一下flex如何分配空间" class="headerlink" title="flex让自使用布局变得比较简单,本文记录一下flex如何分配空间"></a>flex让自使用布局变得比较简单,本文记录一下flex如何分配空间</h3><p><strong><em>本文所有情况只适用与flex-basis不为auto的情况,flex-basis为auto的时候,情况比较复杂</em></strong></p>
@@ -305,5 +346,10 @@
       <tags>
         <tag>js</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>从输入url到页面展示都发生了啥</title>
+    <url>/2020/06/08/%E4%BB%8E%E8%BE%93%E5%85%A5url%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA%E9%83%BD%E5%8F%91%E7%94%9F%E4%BA%86%E5%95%A5/</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>
