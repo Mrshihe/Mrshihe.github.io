@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>http缓存</title>
+    <url>/2019/07/02/http%E7%BC%93%E5%AD%98/</url>
+    <content><![CDATA[<p>HTTP缓存分为强制缓存和协商缓存(强制缓存优先于协商缓存进行)<br>控制强制缓存的字段为Expires和Cache-Control, Cache-Control优先级高于Expires<br>控制协商缓存的字段为Last-Modified/If-Modified-Since和Etag/If-None-Match,Etag/If-None-Match优先级高</p>
+<a id="more"></a>
+<p>浏览器缓存分两种:内存中的缓存(from memory cache)和硬盘中的缓存(from disk cache)，浏览器读取缓存的顺序为memory –&gt; disk。<br>js和图片等文件解析执行后直接存入内存缓存中，css文件则会存入硬盘文件中</p>
+<p>一、强制缓存<br>1.Expires(http 1.0标准)， 存储的是具体过期时间<br>2.Cache-Control(http 1.1标准)， 取值如下:<br>①public: 所有内容都缓存(客户端和代理服务器都可缓存)<br>②private: 所有内容只有客户端可以缓存(默认值)<br>③no-cache: 客户端缓存内容，但是是否使用缓存则需要经过协商缓存来验证决定<br>④no-store: 所有内容都不会被缓存<br>⑤max-age=xxx: 缓存内容将在xxx秒后失效，最大值不能超过1年 </p>
+<p>二、协商缓存<br>1.Last-Modified / If-Modified-Since<br>①Last-Modified 服务器响应请求时，返回该资源文件在服务器最后被修改的时间<br>②If-Modified-Since 客户端发起请求时，携带上次请求返回的Last-Modified值<br>服务器收到该请求，发现请求头含有If-Modified-Since字段，则会根据If-Modified-Since的字段值与该资源在服务器的最后被修改时间做对比，若服务器的资源最后被修改时间大于If-Modified-Since的字段值，则重新返回资源，状态码为200；否则则返回304，代表资源无更新，可继续使用缓存件。</p>
+<p>2.Etag / If-None-Match<br>①Etag 服务器响应请求时，返回当前资源文件的一个唯一标识(由服务器生成)<br>②If-None-Match 客户端发起请求时，携带上次请求返回的唯一标识Etag值<br>服务器收到该请求后，发现该请求头中含有If-None-Match，则会根据If-None-Match的字段值与该资源在服务器的Etag值做对比，一致则返回304，代表资源无更新，继续使用缓存文件；不一致则重新返回资源文件，状态码为200。</p>
+]]></content>
+      <tags>
+        <tag>http</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>AMD/CMD/CommonJs/ES6对比</title>
     <url>/2018/03/08/AMD-CMD-CommonJs-ES6%E5%AF%B9%E6%AF%94/</url>
     <content><![CDATA[<p>AMD,CMD,CommonJs,ES6均是javascript模块化的规范</p>
@@ -16,17 +30,55 @@
       </tags>
   </entry>
   <entry>
-    <title>js常用小功能</title>
-    <url>/2019/06/17/js%E5%B8%B8%E7%94%A8%E5%B0%8F%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<p>记录一下可以用到项目里的小技巧</p>
+    <title>git常用操作</title>
+    <url>/2019/06/02/git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<p>记录一下常用的git命令</p>
 <a id="more"></a>
-<p>一、钱数的千分位分隔符(1,234.89)<br>1.正则 </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(&quot;1234,89&quot;).replace(&#x2F;(\d)(?&#x3D;(\d&#123;3&#125;)+\.)&#x2F;g, &#39;$1,&#39;)</span><br></pre></td></tr></table></figure>
-<p>?=n 匹配其后紧跟n的字符串  n+ 匹配1到多次包含n的字符串</p>
-<p>2.函数实现</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function moneyCut(number) &#123;</span><br><span class="line">  const decimal &#x3D; String(number).split(&#39;.&#39;)[1] || &#39;&#39; &#x2F;&#x2F;如果有小数,先保留小数部分</span><br><span class="line">  let resArr &#x3D; []</span><br><span class="line">  let reverseArr &#x3D; String(number).split(&#39;.&#39;)[0].split(&#39;&#39;).reverse() &#x2F;&#x2F;将整数部分转成数组并倒序</span><br><span class="line">  for(let i&#x3D;0; i&lt;reverseArr.length; i++)&#123;</span><br><span class="line">    resArr.push(reverseArr[i])</span><br><span class="line">    if((i+1)%3&#x3D;&#x3D;&#x3D;0 &amp;&amp; i !&#x3D; reverseArr.length-1)&#123; &#x2F;&#x2F;处理满三位数和边界情况</span><br><span class="line">      resArr.push(&#39;,&#39;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  const resStr &#x3D; resArr.reverse().join(&#39;&#39;) &#x2F;&#x2F; 将处理后的重新转换成字符串</span><br><span class="line">  return decimal ? resStr+&#39;.&#39;+decimal : resStr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+<p>创建一个本地仓库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone [git-url] [user-name]</span><br></pre></td></tr></table></figure>
+<p>克隆一个远程仓库到本地,并且重命名 user-name可省,默认为远程仓库名</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone -b [git-branch] [git-url] [user-name]</span><br></pre></td></tr></table></figure>
+<p>从指定分支分支克隆远程仓库到本地,并且重命名 user-name可省</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote [git-params]</span><br></pre></td></tr></table></figure>
+<p>列出远程仓库别名,默认会有(fetch/push)两条数据,这是因为git允许你为每个仓库添加不同的推送和获取连接,默认git-params缺省,此时只显示别名<br>git-params<br>-v 列出远程仓库别名和地址</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote add [git-alias] [git-url]</span><br></pre></td></tr></table></figure>
+<p>添加一个远程仓库, git-alias通常为origin </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote rm [git-alias]</span><br></pre></td></tr></table></figure>
+<p>删除一个远程仓库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git add . &#x2F; git add [file]</span><br></pre></td></tr></table></figure>
+<p>添加文件到缓存区, .表示全部文件 file表示指定文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git reset HEAD [add-file]</span><br></pre></td></tr></table></figure>
+<p>用于git add后撤销操作, add-flie省略则对上次add操作全部撤销</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git status [git-params]</span><br></pre></td></tr></table></figure>
+<p>查看工作目录和缓存区的状态<br>git-params<br>-s 简洁方式输出,只提示文件和状态</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git commit -m &#39;&#39;</span><br></pre></td></tr></table></figure>
+<p>提交至本地仓库,并备注</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git reset [git-params] [commit-id]</span><br></pre></td></tr></table></figure>
+<p>撤销commit操作, git log 获取提交信息, 得到commit-id<br>git-params:<br>–mixed(默认) 撤销git commit, 撤销git add, 保留编辑器改动代码<br>–soft 撤销git commit, 不撤销git add, 保留编辑器改动代码<br>–hard 撤销git commit, 撤销git add, 删除编辑器改动代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git reset --mixed HEAD^&#x2F;HEAD~1</span><br></pre></td></tr></table></figure>
+<p>也是撤销操作 HEAD^(HEAD~1)表示上一版</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git pull [git-alias] [online-git-branch]:[local-git-branch]</span><br></pre></td></tr></table></figure>
+<p>将远程仓库git-alias下的online-git-branch远程分支拉取下去与local-git-branch本地分支合并, local-git-branch可省略,此时默认与当前分支合并</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push [git-alias] [local-git-branch] [online-git-branch]</span><br></pre></td></tr></table></figure>
+<p>将local-git-branch本地分支上的内容推送到git-alias远程仓库上的online-git-branch分支<br>online-git-branch 可省,则表示将本地分支推送到与之存在追踪关系的远程分支(通常两者同名),如果该远程分支不存在,则会被新建</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git branch [branch-name]</span><br></pre></td></tr></table></figure>
+<p>创建本地分支</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git checkout [branch-name]</span><br></pre></td></tr></table></figure>
+<p>切换到指定分支</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git checkout -b [branch-name]</span><br></pre></td></tr></table></figure>
+<p>创建并切换到指定分支</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git branch -a</span><br></pre></td></tr></table></figure>
+<p>查看所有分支,以及当前所处分支, -a省略则查看本地分支</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git branch -D [branch-name]</span><br></pre></td></tr></table></figure>
+<p>删除本地分支,(处于该分支时不能删除)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git fetch [git-alias] [git-branch]</span><br></pre></td></tr></table></figure>
+<p>从远程仓库git-alias拉取git-branch到本地仓库, git-branch省略,则拉取所有分支最新信息,包含新建分支</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git merge [git-alias&#x2F;git-branch]</span><br></pre></td></tr></table></figure>
+<p>把git-alias/git-branch分支上的内容合并到当前分支上(分支写法有些特殊,同时包含远程仓库名/远程分支)</p>
+]]></content>
       <tags>
-        <tag>js</tag>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -59,6 +111,32 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.menu.archives.split(&#39;||&#39;)[0]) | trim &#125;&#125;&quot;&gt;</span><br></pre></td></tr></table></figure>]]></content>
       <tags>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>js跨域</title>
+    <url>/2019/06/08/js%E8%B7%A8%E5%9F%9F/</url>
+    <content><![CDATA[<p>说起跨域,就要先从浏览器的同源策略说起,所谓同源策略就是指协议,域名,端口号都要相同,一项不同就产生了跨域问题。<br>同源策略作用大体分为两类: (1)限制接口 (2)限制查询DOM</p>
+<a id="more"></a>
+<p>解决跨域问题,常见的有已下几种方法:<br>一、jsonp<br>原理: 同源策略中,html中通过相应标签从不同域名中加载静态资源文件是被浏览器允许的,所以script/img/iframe标签是例外,不受同源策略限制</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let script &#x3D; document.createElement(&#39;script&#39;);</span><br><span class="line">script.src &#x3D; &#39;***?id&#x3D;3&amp;callback&#x3D;callback&#39;;</span><br><span class="line">document.body.appendChild(script);</span><br><span class="line"></span><br><span class="line">function callback(res) &#123; console.log(res) &#125;</span><br></pre></td></tr></table></figure>
+<p>缺点: 只支持GET请求<br>二、CORS(Cross-origin resource sharing) 跨域资源共享<br>CORS分为简单请求和非简单请求:<br>同时满足以下两个条件,就属于简单请求:<br>1.请求方法是下列之一: HEAD,GET,POST<br>2.HTTP头部信息不超过以下几种字段:<br>(1) Accept (2) Accept-Language (3) Content-Language (4) Last-Event-ID<br>(5) Content-Type 只限于application/x-www-form-urlencoded、multipart/form-data、text/plain</p>
+<ul>
+<li>简单请求会自动在请求头中加入Origin字段</li>
+<li>非简单请求会先发起一次预检请求</li>
+</ul>
+<p><a href="http://www.ruanyifeng.com/blog/2016/04/cors.html" target="_blank" rel="noopener">cors参考资料</a><br>三、Nginx代理</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 0000;</span><br><span class="line">  server_name localhost</span><br><span class="line">  location ^~ &#x2F;api &#123;</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;******</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 凡是localhost:0000&#x2F;api的所有接口都转发到http:&#x2F;&#x2F;******上处理</span><br></pre></td></tr></table></figure>
+
+<p>四、document.domain + iframe<br>原理:通过设置document.domain为统一主域名</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 现有abc.test.com下的a.html和xyz.test.com下的x.html</span><br><span class="line">&#x2F;&#x2F; a.html</span><br><span class="line">&lt;iframe src&#x3D;&quot;xyz.test.com&#x2F;x.html&quot;&gt;&lt;&#x2F;iframe&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">document.domain &#x3D; &#39;test.com&#39;</span><br><span class="line">iframe.onload &#x3D; function()&#123; &#x2F;&#x2F;这里就可以查询x.html页面DOM &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line">&#x2F;&#x2F;x.html</span><br><span class="line">&lt;script&gt;</span><br><span class="line">document.domain &#x3D; &#39;test.com&#39;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<p>缺点:只支持主域名相同的<br>五、postMessage,H5新增API,可以安全地实现跨源通信</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">otherWindow.postMessage(message, targetOrigin, [transfer])</span><br></pre></td></tr></table></figure>
+<p>otherWindow 其他窗口的引用,比如iframe的contentWindow属性、执行window.open返回的窗口对象、或者是命名过或数值索引的window.frames<br>message 将要发送到其他 window的数据<br>targetOrigin 通过窗口的origin属性来指定哪些窗口能接收到消息事件,其值可以是字符串”*”（表示无限制）或者一个URI<br>transfer(可选) 是一串和message同时传递的Transferable对象.这些对象的所有权将被转移给消息的接收方,而发送一方将不再保有所有权</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; http:&#x2F;&#x2F;a.test.com</span><br><span class="line">&lt;iframe name&#x3D;&quot;toiframe&quot; src&#x3D;&quot;http:&#x2F;&#x2F;b.example.com&quot;&gt;&lt;&#x2F;iframe&gt;</span><br><span class="line">&#x2F;&#x2F; 用于发送信息</span><br><span class="line">window.frames[&#39;toiframe&#39;].postMessage(&#39;from a.test.com&#39;,&#39;http:&#x2F;&#x2F;b.example.com&#39;)</span><br><span class="line">&#x2F;&#x2F; 用于接收信息</span><br><span class="line">window.addEventListener(&#39;message&#39;, (e) &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; 检验消息来源</span><br><span class="line">  if(e.origin &#x3D;&#x3D;&#x3D; &#39;http:&#x2F;&#x2F;a.test.com&#39;)&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; http:&#x2F;&#x2F;b.example.com</span><br><span class="line">window.addEventListener(&#39;message&#39;, (e) &#x3D;&gt; &#123;</span><br><span class="line">  if(e.origin &#x3D;&#x3D;&#x3D; &#39;http:&#x2F;&#x2F;a.test.com&#39;)&#123;</span><br><span class="line">    &#x2F;&#x2F; 接收消息并回应</span><br><span class="line">    e.source.postMessage(&#39;from b.example.com answer&#39;, e.origin)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>js</tag>
       </tags>
   </entry>
   <entry>
@@ -121,79 +199,15 @@
       </tags>
   </entry>
   <entry>
-    <title>git常用操作</title>
-    <url>/2019/06/02/git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<p>记录一下常用的git命令</p>
+    <title>js常用小功能</title>
+    <url>/2019/06/17/js%E5%B8%B8%E7%94%A8%E5%B0%8F%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<p>记录一下可以用到项目里的小技巧</p>
 <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
-<p>创建一个本地仓库</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone [git-url] [user-name]</span><br></pre></td></tr></table></figure>
-<p>克隆一个远程仓库到本地,并且重命名 user-name可省,默认为远程仓库名</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone -b [git-branch] [git-url] [user-name]</span><br></pre></td></tr></table></figure>
-<p>从指定分支分支克隆远程仓库到本地,并且重命名 user-name可省</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote [git-params]</span><br></pre></td></tr></table></figure>
-<p>列出远程仓库别名,默认会有(fetch/push)两条数据,这是因为git允许你为每个仓库添加不同的推送和获取连接,默认git-params缺省,此时只显示别名<br>git-params<br>-v 列出远程仓库别名和地址</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote add [git-alias] [git-url]</span><br></pre></td></tr></table></figure>
-<p>添加一个远程仓库, git-alias通常为origin </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote rm [git-alias]</span><br></pre></td></tr></table></figure>
-<p>删除一个远程仓库</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git add . &#x2F; git add [file]</span><br></pre></td></tr></table></figure>
-<p>添加文件到缓存区, .表示全部文件 file表示指定文件</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git reset HEAD [add-file]</span><br></pre></td></tr></table></figure>
-<p>用于git add后撤销操作, add-flie省略则对上次add操作全部撤销</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git status [git-params]</span><br></pre></td></tr></table></figure>
-<p>查看工作目录和缓存区的状态<br>git-params<br>-s 简洁方式输出,只提示文件和状态</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git commit -m &#39;&#39;</span><br></pre></td></tr></table></figure>
-<p>提交至本地仓库,并备注</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git reset [git-params] [commit-id]</span><br></pre></td></tr></table></figure>
-<p>撤销commit操作, git log 获取提交信息, 得到commit-id<br>git-params:<br>–mixed(默认) 撤销git commit, 撤销git add, 保留编辑器改动代码<br>–soft 撤销git commit, 不撤销git add, 保留编辑器改动代码<br>–hard 撤销git commit, 撤销git add, 删除编辑器改动代码</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git reset --mixed HEAD^&#x2F;HEAD~1</span><br></pre></td></tr></table></figure>
-<p>也是撤销操作 HEAD^(HEAD~1)表示上一版</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git pull [git-alias] [online-git-branch]:[local-git-branch]</span><br></pre></td></tr></table></figure>
-<p>将远程仓库git-alias下的online-git-branch远程分支拉取下去与local-git-branch本地分支合并, local-git-branch可省略,此时默认与当前分支合并</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push [git-alias] [local-git-branch] [online-git-branch]</span><br></pre></td></tr></table></figure>
-<p>将local-git-branch本地分支上的内容推送到git-alias远程仓库上的online-git-branch分支<br>online-git-branch 可省,则表示将本地分支推送到与之存在追踪关系的远程分支(通常两者同名),如果该远程分支不存在,则会被新建</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git branch [branch-name]</span><br></pre></td></tr></table></figure>
-<p>创建本地分支</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git checkout [branch-name]</span><br></pre></td></tr></table></figure>
-<p>切换到指定分支</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git checkout -b [branch-name]</span><br></pre></td></tr></table></figure>
-<p>创建并切换到指定分支</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git branch -a</span><br></pre></td></tr></table></figure>
-<p>查看所有分支,以及当前所处分支, -a省略则查看本地分支</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git branch -D [branch-name]</span><br></pre></td></tr></table></figure>
-<p>删除本地分支,(处于该分支时不能删除)</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git fetch [git-alias] [git-branch]</span><br></pre></td></tr></table></figure>
-<p>从远程仓库git-alias拉取git-branch到本地仓库, git-branch省略,则拉取所有分支最新信息,包含新建分支</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git merge [git-alias&#x2F;git-branch]</span><br></pre></td></tr></table></figure>
-<p>把git-alias/git-branch分支上的内容合并到当前分支上(分支写法有些特殊,同时包含远程仓库名/远程分支)</p>
-]]></content>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>js跨域</title>
-    <url>/2019/06/08/js%E8%B7%A8%E5%9F%9F/</url>
-    <content><![CDATA[<p>说起跨域,就要先从浏览器的同源策略说起,所谓同源策略就是指协议,域名,端口号都要相同,一项不同就产生了跨域问题。<br>同源策略作用大体分为两类: (1)限制接口 (2)限制查询DOM</p>
-<a id="more"></a>
-<p>解决跨域问题,常见的有已下几种方法:<br>一、jsonp<br>原理: 同源策略中,html中通过相应标签从不同域名中加载静态资源文件是被浏览器允许的,所以script/img/iframe标签是例外,不受同源策略限制</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let script &#x3D; document.createElement(&#39;script&#39;);</span><br><span class="line">script.src &#x3D; &#39;***?id&#x3D;3&amp;callback&#x3D;callback&#39;;</span><br><span class="line">document.body.appendChild(script);</span><br><span class="line"></span><br><span class="line">function callback(res) &#123; console.log(res) &#125;</span><br></pre></td></tr></table></figure>
-<p>缺点: 只支持GET请求<br>二、CORS(Cross-origin resource sharing) 跨域资源共享<br>CORS分为简单请求和非简单请求:<br>同时满足以下两个条件,就属于简单请求:<br>1.请求方法是下列之一: HEAD,GET,POST<br>2.HTTP头部信息不超过以下几种字段:<br>(1) Accept (2) Accept-Language (3) Content-Language (4) Last-Event-ID<br>(5) Content-Type 只限于application/x-www-form-urlencoded、multipart/form-data、text/plain</p>
-<ul>
-<li>简单请求会自动在请求头中加入Origin字段</li>
-<li>非简单请求会先发起一次预检请求</li>
-</ul>
-<p><a href="http://www.ruanyifeng.com/blog/2016/04/cors.html" target="_blank" rel="noopener">cors参考资料</a><br>三、Nginx代理</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 0000;</span><br><span class="line">  server_name localhost</span><br><span class="line">  location ^~ &#x2F;api &#123;</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;******</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 凡是localhost:0000&#x2F;api的所有接口都转发到http:&#x2F;&#x2F;******上处理</span><br></pre></td></tr></table></figure>
-
-<p>四、document.domain + iframe<br>原理:通过设置document.domain为统一主域名</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 现有abc.test.com下的a.html和xyz.test.com下的x.html</span><br><span class="line">&#x2F;&#x2F; a.html</span><br><span class="line">&lt;iframe src&#x3D;&quot;xyz.test.com&#x2F;x.html&quot;&gt;&lt;&#x2F;iframe&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">document.domain &#x3D; &#39;test.com&#39;</span><br><span class="line">iframe.onload &#x3D; function()&#123; &#x2F;&#x2F;这里就可以查询x.html页面DOM &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line">&#x2F;&#x2F;x.html</span><br><span class="line">&lt;script&gt;</span><br><span class="line">document.domain &#x3D; &#39;test.com&#39;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
-<p>缺点:只支持主域名相同的<br>五、postMessage,H5新增API,可以安全地实现跨源通信</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">otherWindow.postMessage(message, targetOrigin, [transfer])</span><br></pre></td></tr></table></figure>
-<p>otherWindow 其他窗口的引用,比如iframe的contentWindow属性、执行window.open返回的窗口对象、或者是命名过或数值索引的window.frames<br>message 将要发送到其他 window的数据<br>targetOrigin 通过窗口的origin属性来指定哪些窗口能接收到消息事件,其值可以是字符串”*”（表示无限制）或者一个URI<br>transfer(可选) 是一串和message同时传递的Transferable对象.这些对象的所有权将被转移给消息的接收方,而发送一方将不再保有所有权</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; http:&#x2F;&#x2F;a.test.com</span><br><span class="line">&lt;iframe name&#x3D;&quot;toiframe&quot; src&#x3D;&quot;http:&#x2F;&#x2F;b.example.com&quot;&gt;&lt;&#x2F;iframe&gt;</span><br><span class="line">&#x2F;&#x2F; 用于发送信息</span><br><span class="line">window.frames[&#39;toiframe&#39;].postMessage(&#39;from a.test.com&#39;,&#39;http:&#x2F;&#x2F;b.example.com&#39;)</span><br><span class="line">&#x2F;&#x2F; 用于接收信息</span><br><span class="line">window.addEventListener(&#39;message&#39;, (e) &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; 检验消息来源</span><br><span class="line">  if(e.origin &#x3D;&#x3D;&#x3D; &#39;http:&#x2F;&#x2F;a.test.com&#39;)&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; http:&#x2F;&#x2F;b.example.com</span><br><span class="line">window.addEventListener(&#39;message&#39;, (e) &#x3D;&gt; &#123;</span><br><span class="line">  if(e.origin &#x3D;&#x3D;&#x3D; &#39;http:&#x2F;&#x2F;a.test.com&#39;)&#123;</span><br><span class="line">    &#x2F;&#x2F; 接收消息并回应</span><br><span class="line">    e.source.postMessage(&#39;from b.example.com answer&#39;, e.origin)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-]]></content>
+<p>一、钱数的千分位分隔符(1,234.89)<br>1.正则 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(&quot;1234,89&quot;).replace(&#x2F;(\d)(?&#x3D;(\d&#123;3&#125;)+\.)&#x2F;g, &#39;$1,&#39;)</span><br></pre></td></tr></table></figure>
+<p>?=n 匹配其后紧跟n的字符串  n+ 匹配1到多次包含n的字符串</p>
+<p>2.函数实现</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function moneyCut(number) &#123;</span><br><span class="line">  const decimal &#x3D; String(number).split(&#39;.&#39;)[1] || &#39;&#39; &#x2F;&#x2F;如果有小数,先保留小数部分</span><br><span class="line">  let resArr &#x3D; []</span><br><span class="line">  let reverseArr &#x3D; String(number).split(&#39;.&#39;)[0].split(&#39;&#39;).reverse() &#x2F;&#x2F;将整数部分转成数组并倒序</span><br><span class="line">  for(let i&#x3D;0; i&lt;reverseArr.length; i++)&#123;</span><br><span class="line">    resArr.push(reverseArr[i])</span><br><span class="line">    if((i+1)%3&#x3D;&#x3D;&#x3D;0 &amp;&amp; i !&#x3D; reverseArr.length-1)&#123; &#x2F;&#x2F;处理满三位数和边界情况</span><br><span class="line">      resArr.push(&#39;,&#39;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  const resStr &#x3D; resArr.reverse().join(&#39;&#39;) &#x2F;&#x2F; 将处理后的重新转换成字符串</span><br><span class="line">  return decimal ? resStr+&#39;.&#39;+decimal : resStr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <tags>
         <tag>js</tag>
       </tags>
@@ -204,47 +218,11 @@
     <content><![CDATA[<p>简易版的防抖/节流,为了解决高频率触发事件引起的性能问题</p>
 <a id="more"></a>
 <p>一、防抖<br>规定时间内只执行最后一次(如5秒内没有函数调用请求,则执行该函数,否则继续等待5秒)<br>应用场景: 搜索联想</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function debounce(fn,delay) &#123;</span><br><span class="line">  let timer &#x3D; null</span><br><span class="line">  return function() &#123;</span><br><span class="line">    let args &#x3D; arguments</span><br><span class="line">    if(timer)&#123;</span><br><span class="line">      clearTimeout(timer)</span><br><span class="line">    &#125;</span><br><span class="line">    timer &#x3D; setTimeout(()&#x3D;&gt;&#123;</span><br><span class="line">      fn.appl(this,args)</span><br><span class="line">    &#125;,delay)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function debounce(fn,delay) &#123;</span><br><span class="line">  let timer &#x3D; null</span><br><span class="line">  return function() &#123;</span><br><span class="line">    let args &#x3D; arguments</span><br><span class="line">    if(timer)&#123;</span><br><span class="line">      clearTimeout(timer)</span><br><span class="line">    &#125;</span><br><span class="line">    timer &#x3D; setTimeout(()&#x3D;&gt;&#123;</span><br><span class="line">      fn.apply(this,args)</span><br><span class="line">    &#125;,delay)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>二、节流<br>函数在规定时间内只执行一次<br>应用场景: scroll事件 resize事件 touchmove事件</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function throttle(fn,wait) &#123;</span><br><span class="line">  let prevTime &#x3D; 0</span><br><span class="line">  return function() &#123;</span><br><span class="line">    let now &#x3D; new Date()</span><br><span class="line">    let args &#x3D; arguments</span><br><span class="line">    if( now-prevTime &gt; wait )&#123;</span><br><span class="line">      prevTime &#x3D; now</span><br><span class="line">      fn.apply(this,args)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
-      <tags>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>存储那些事</title>
-    <url>/2018/03/01/%E5%AD%98%E5%82%A8%E9%82%A3%E4%BA%9B%E4%BA%8B/</url>
-    <content><![CDATA[<p>记录一下浏览器存储的成员 cookie/localStorage/sessionStorage</p>
-<a id="more"></a>
-<p>一. cookie<br>document.cookie 可以获取当前所有cookie值, 每条cookie以键值对方式存在, 并且以分号和空格分离.</p>
-<p>cookie格式如下:<br>① name=value(必须)cookie的名称和存储的值<br>② domain 对于哪个域名有效,默认为当前文档位置的路径的域名部分<br>③ path cookie路径,默认为当前文档位置的路径<br>④ expires cookie的过期时间,表示cookie何时应该被删除的时间戳,如果没有定义,cookie会在对话结束时过期<br>⑤ max-age cookie过期时间,单位是秒,优先级高于expires<br>⑥ httpOnly 告知浏览器不允许通过脚本document.cookie去更改这个值,同样这个值在document.cookie中也不可见<br>⑦ secure cookie只通过https协议传输</p>
-<p>cookie满足同源策略,cookie大小在4K左右,一般不同浏览器下存储个数也不一样, chrome-53/safari-无限制<br>cookie每次都参与服务器请求,一般都由服务端设置</p>
-<p>二. localStorage<br>localStore不参与服务端请求,一般大小在5M左右,只支持String格式存储(通常以Key/value的形式),需要手动进行删除<br>localStorage的方法:</p>
-<ul>
-<li>setItem(key, value) 新增一个项</li>
-<li>getItem(key) 读取一个项</li>
-<li>removeItem(key) 移除一个项</li>
-<li>clear() 移除所有项</li>
-</ul>
-<p>三. sessionStorage<br>sessionStorage不参与服务端请求,一般大小在5M左右,只支持String格式存储(以Key/value的形式),关闭浏览器sessionStorage就会被清除<br><em>打开多个相同的URL的Tabs页面,会创建各自的sessionStorage</em><br>sessionStroage的方法:</p>
-<ul>
-<li>setItem(key, value) 新增一个项</li>
-<li>getItem(key) 读取一个项</li>
-<li>removeItem(key) 移除一个项</li>
-<li>clear() 移除所有项</li>
-</ul>
-<p>总结:<br>1.生命周期<br>cookie设置过期时间, localStorage永久存储,除非手动清除, sessionStorage浏览器关闭的时候清除<br>2.数据存储大小<br>cookie-4K,浏览器不同,可设置的条数不同 localStorage/sessionStorage都是5M<br>3.与服务器通信<br>cookie每次都会携带在header中, localStorage/sessionStorage不参与服务端通信</p>
-]]></content>
-      <tags>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>从输入url到页面展示都发生了啥</title>
-    <url>/2019/04/07/%E4%BB%8E%E8%BE%93%E5%85%A5url%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA%E9%83%BD%E5%8F%91%E7%94%9F%E4%BA%86%E5%95%A5/</url>
-    <content><![CDATA[]]></content>
       <tags>
         <tag>js</tag>
       </tags>
@@ -340,6 +318,14 @@
       </tags>
   </entry>
   <entry>
+    <title>从输入url到页面展示都发生了啥</title>
+    <url>/2019/04/07/%E4%BB%8E%E8%BE%93%E5%85%A5url%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA%E9%83%BD%E5%8F%91%E7%94%9F%E4%BA%86%E5%95%A5/</url>
+    <content><![CDATA[]]></content>
+      <tags>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>改变this指向的三剑客</title>
     <url>/2018/06/04/%E6%94%B9%E5%8F%98this%E6%8C%87%E5%90%91%E7%9A%84%E4%B8%89%E5%89%91%E5%AE%A2/</url>
     <content><![CDATA[<p>记录一下能改变this指向的三剑客,他们就是call() / apply() / bind()<br>call()/apply()作用一致,只是call接受的是一个参数列表,apply接受一个包含多个参数的数组,bind则创建一个新的函数</p>
@@ -380,6 +366,34 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function list() &#123;</span><br><span class="line">  return Array.prototype.slice.call(arguments)</span><br><span class="line">&#125;</span><br><span class="line">var newlist &#x3D; list.bind(null,37)</span><br><span class="line">newlist(1,2,3) &#x2F;&#x2F; [37,1,2,3]</span><br></pre></td></tr></table></figure>
 <p>手写一个bind方法</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Function.prototype.mybind &#x3D; function(context)&#123;</span><br><span class="line">  let that &#x3D; this;</span><br><span class="line">  &#x2F;&#x2F; mybind绑定的时候传入的第二个参数</span><br><span class="line">  let args1 &#x3D; Array.prototype.slice.call(arguments,1);</span><br><span class="line">  let bindFn &#x3D; function()&#123;</span><br><span class="line">    let args2 &#x3D; Array.prototype.slice.call(arguments);</span><br><span class="line">    &#x2F;&#x2F; 判断一下是否用new创建了一个新实例</span><br><span class="line">    return that.apply(this instanceof bindFn?this:context,args1.concat(args2)); </span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; 使用空函数继承原型链</span><br><span class="line">  let Fn &#x3D; function()&#123;&#125;;</span><br><span class="line">  Fn.prototype &#x3D; this.prototype;</span><br><span class="line">  bindFn.prototype &#x3D; new Fn();</span><br><span class="line">  return bindFn;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>存储那些事</title>
+    <url>/2018/03/01/%E5%AD%98%E5%82%A8%E9%82%A3%E4%BA%9B%E4%BA%8B/</url>
+    <content><![CDATA[<p>记录一下浏览器存储的成员 cookie/localStorage/sessionStorage</p>
+<a id="more"></a>
+<p>一. cookie<br>document.cookie 可以获取当前所有cookie值, 每条cookie以键值对方式存在, 并且以分号和空格分离.</p>
+<p>cookie格式如下:<br>① name=value(必须)cookie的名称和存储的值<br>② domain 对于哪个域名有效,默认为当前文档位置的路径的域名部分<br>③ path cookie路径,默认为当前文档位置的路径<br>④ expires cookie的过期时间,表示cookie何时应该被删除的时间戳,如果没有定义,cookie会在对话结束时过期<br>⑤ max-age cookie过期时间,单位是秒,优先级高于expires<br>⑥ httpOnly 告知浏览器不允许通过脚本document.cookie去更改这个值,同样这个值在document.cookie中也不可见<br>⑦ secure cookie只通过https协议传输</p>
+<p>cookie满足同源策略,cookie大小在4K左右,一般不同浏览器下存储个数也不一样, chrome-53/safari-无限制<br>cookie每次都参与服务器请求,一般都由服务端设置</p>
+<p>二. localStorage<br>localStore不参与服务端请求,一般大小在5M左右,只支持String格式存储(通常以Key/value的形式),需要手动进行删除<br>localStorage的方法:</p>
+<ul>
+<li>setItem(key, value) 新增一个项</li>
+<li>getItem(key) 读取一个项</li>
+<li>removeItem(key) 移除一个项</li>
+<li>clear() 移除所有项</li>
+</ul>
+<p>三. sessionStorage<br>sessionStorage不参与服务端请求,一般大小在5M左右,只支持String格式存储(以Key/value的形式),关闭浏览器sessionStorage就会被清除<br><em>打开多个相同的URL的Tabs页面,会创建各自的sessionStorage</em><br>sessionStroage的方法:</p>
+<ul>
+<li>setItem(key, value) 新增一个项</li>
+<li>getItem(key) 读取一个项</li>
+<li>removeItem(key) 移除一个项</li>
+<li>clear() 移除所有项</li>
+</ul>
+<p>总结:<br>1.生命周期<br>cookie设置过期时间, localStorage永久存储,除非手动清除, sessionStorage浏览器关闭的时候清除<br>2.数据存储大小<br>cookie-4K,浏览器不同,可设置的条数不同 localStorage/sessionStorage都是5M<br>3.与服务器通信<br>cookie每次都会携带在header中, localStorage/sessionStorage不参与服务端通信</p>
+]]></content>
       <tags>
         <tag>js</tag>
       </tags>
